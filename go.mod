@@ -3,7 +3,6 @@ module github.com/confidential-containers/cloud-api-adaptor
 go 1.18
 
 require (
-	github.com/vmware/govmomi v0.29.0 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.1.2
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.1.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3 v3.0.1
@@ -14,7 +13,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.15.11
 	github.com/aws/aws-sdk-go-v2/credentials v1.12.6
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.31.0
-	github.com/containerd/containerd v1.6.6
+	github.com/containerd/containerd v1.6.12
 	github.com/containerd/ttrpc v1.1.0
 	github.com/containernetworking/plugins v1.1.1
 	github.com/containers/podman/v4 v4.2.0
@@ -25,19 +24,24 @@ require (
 	github.com/stretchr/testify v1.8.0
 	github.com/vishvananda/netlink v1.1.1-0.20220115184804-dd687eb2f2d4
 	github.com/vishvananda/netns v0.0.0-20210104183010-2eb08e3e575f
+	github.com/vmware/govmomi v0.29.0
 	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f
 	google.golang.org/grpc v1.47.0
 	gopkg.in/yaml.v2 v2.4.0
-	k8s.io/cri-api v0.23.1
+	k8s.io/cri-api v0.25.0
 	libvirt.org/go/libvirt v1.8002.0
 	libvirt.org/go/libvirtxml v1.8002.0
+)
+
+require (
+	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.6
+	github.com/kata-containers/kata-containers/src/runtime v0.0.0-20220913141151-9b49a6ddc6fd
 )
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/internal v1.0.0 // indirect
 	github.com/AzureAD/microsoft-authentication-library-for-go v0.5.1 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20200907205600-7a23bdc65eef // indirect
-	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.6 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.12 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.6 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.13 // indirect
@@ -56,7 +60,6 @@ require (
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-retryablehttp v0.7.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
-	github.com/kata-containers/kata-containers/src/runtime v0.0.0-20220913141151-9b49a6ddc6fd // indirect
 	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
