@@ -489,26 +489,6 @@ func (p *CloudAPIAdaptor) Delete(ctx context.Context, cfg *envconf.Config) error
 		return err
 	}
 
-	log.Info("Delete the peerpod-ctrl deployment")
-	cmd = exec.Command("make", "-C", "../peerpod-ctrl", "undeploy")
-	// Run the command from the root src dir
-	cmd.Dir = p.rootSrcDir
-	// Set the KUBECONFIG env var
-	cmd.Env = append(os.Environ(), fmt.Sprintf("KUBECONFIG="+cfg.KubeconfigFile()))
-	stdoutStderr, err = cmd.CombinedOutput()
-	log.Tracef("%v, output: %s", cmd, stdoutStderr)
-	if err != nil {
-		return err
-	}
-
-	log.Info("Wait for the peerpod-ctrl deployment to be deleted")
-	if err = wait.For(conditions.New(resources).ResourcesDeleted(
-		&appsv1.DeploymentList{Items: []appsv1.Deployment{
-			{ObjectMeta: metav1.ObjectMeta{Name: "peerpod-ctrl-controller-manager", Namespace: p.namespace}}}}),
-		wait.WithTimeout(time.Minute*1)); err != nil {
-		return err
-	}
-
 	return nil
 }
 
@@ -586,27 +566,6 @@ func (p *CloudAPIAdaptor) Deploy(ctx context.Context, cfg *envconf.Config, props
 	fmt.Printf("Wait for the %s runtimeclass be created\n", p.runtimeClass.GetName())
 	if err = wait.For(conditions.New(resources).ResourcesFound(&nodev1.RuntimeClassList{Items: []nodev1.RuntimeClass{*p.runtimeClass}}),
 		wait.WithTimeout(time.Second*60)); err != nil {
-		return err
-	}
-
-	log.Info("Installing peerpod-ctrl")
-	cmd = exec.Command("make", "-C", "../peerpod-ctrl", "deploy")
-	// Run the deployment from the root src dir
-	cmd.Dir = p.rootSrcDir
-	// Set the KUBECONFIG env var
-	cmd.Env = append(os.Environ(), fmt.Sprintf("KUBECONFIG="+cfg.KubeconfigFile()))
-	stdoutStderr, err = cmd.CombinedOutput()
-	log.Tracef("%v, output: %s", cmd, stdoutStderr)
-	if err != nil {
-		return err
-	}
-
-	// Wait for the peerpod-ctrl deployment to be ready
-	log.Info("Wait for the peerpod-ctrl deployment to be available")
-	if err = wait.For(conditions.New(resources).DeploymentConditionMatch(
-		&appsv1.Deployment{ObjectMeta: metav1.ObjectMeta{Name: "peerpod-ctrl-controller-manager", Namespace: p.namespace}},
-		appsv1.DeploymentAvailable, corev1.ConditionTrue),
-		wait.WithTimeout(time.Minute*5)); err != nil {
 		return err
 	}
 

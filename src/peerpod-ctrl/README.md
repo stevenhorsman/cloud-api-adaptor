@@ -23,7 +23,6 @@ Make sure to [install cloud-api-adaptor](../cloud-api-adaptor/install/README.md)
 ```sh
 make deploy
 ```
-**Note:** alternatively you can deploy the peerpod-ctrl along with [cloud-api-adaptor installtion](../cloud-api-adaptor/install/README.md) by setting `RESOURCE_CTRL=true`
 
 ### Uninstall CRDs
 To delete the CRDs from the cluster:
@@ -45,8 +44,8 @@ For any changes in the CRD/controller make sure it doesn't break the k8s api cal
 ### How it works
 This project aims to follow the Kubernetes [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 
-It uses [Controllers](https://kubernetes.io/docs/concepts/architecture/controller/) 
-which provides a reconcile function responsible for synchronizing resources untile the desired state is reached on the cluster 
+It uses [Controllers](https://kubernetes.io/docs/concepts/architecture/controller/)
+which provides a reconcile function responsible for synchronizing resources until the desired state is reached on the cluster
 
 ### Test It Out
 #### Running custom build
