@@ -281,7 +281,7 @@ which should return nothing.
 To delete the *controller-manager*:
 
 ```
-$ kubectl delete -k "github.com/confidential-containers/operator/config/default"
+$ kubectl delete -k "github.com/confidential-containers/operator/config/overlays/peerpods/default"
 
 namespace "confidential-containers-system" deleted
 customresourcedefinition.apiextensions.k8s.io "ccruntimes.confidentialcontainers.org" deleted

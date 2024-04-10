@@ -124,9 +124,9 @@ instability and all these versions where tested in the release candidate testing
 For the cloud-api-adaptor we need to wait until the Kata Containers release tag has been created and the
 [Kata Containers runtime payload](https://github.com/kata-containers/kata-containers/actions/workflows/cc-payload.yaml)
 to have been built.
-Also we need to wait until the [CoCo operator](https://github.com/confidential-containers/operator/) release tag has been create to pin the URLs used by the make `deploy` target to install the operator. So edit the [Makefile](../src/cloud-api-adaptor/Makefile) to replace the *github.com/confidential-containers/operator/config/default* and *github.com/confidential-containers/operator/config/samples/ccruntime/peer-pods* URLs, e.g.:
+Also we need to wait until the [CoCo operator](https://github.com/confidential-containers/operator/) release tag has been create to pin the URLs used by the make `deploy` target to install the operator. So edit the [Makefile](../src/cloud-api-adaptor/Makefile) to replace the *github.com/confidential-containers/operator/config/overlays/peerpods/default* and *github.com/confidential-containers/operator/config/samples/ccruntime/peer-pods* URLs, e.g.:
 ```
-sed -i 's#\(github.com/confidential-containers/operator/config/release\)#\1?ref=v0.8.0#' Makefile
+sed -i 's#\(github.com/confidential-containers/operator/config/overlays/peerpods/default\)#\1?ref=v0.8.0#' Makefile
 sed -i 's#\(github.com/confidential-containers/operator/config/samples/ccruntime/peer-pods\)#\1?ref=v0.8.0#' Makefile
 ```
 
