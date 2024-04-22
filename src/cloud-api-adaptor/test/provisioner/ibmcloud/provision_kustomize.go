@@ -6,8 +6,6 @@ package ibmcloud
 import (
 	"context"
 	"encoding/json"
-	"io"
-	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
@@ -78,43 +76,6 @@ func isKustomizeSecretKey(key string) bool {
 	}
 }
 
-func isWorkerS390xFlavors() bool {
-	if strings.HasPrefix(IBMCloudProps.WorkerFlavor, "bz") ||
-		strings.HasPrefix(IBMCloudProps.WorkerFlavor, "cz") ||
-		strings.HasPrefix(IBMCloudProps.WorkerFlavor, "mz") {
-		return true
-	}
-
-	return false
-}
-
-func getCaaLatestCommitTag() string {
-	resp, err := http.Get("https://quay.io/api/v1/repository/confidential-containers/cloud-api-adaptor/tag/")
-	if err != nil {
-		log.Errorf(err.Error())
-	}
-	defer resp.Body.Close()
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		log.Errorf(err.Error())
-	}
-
-	var result QuayTagsResponse
-	if err := json.Unmarshal(body, &result); err != nil {
-		log.Errorf(err.Error())
-		return ""
-	}
-
-	for _, tag := range result.Tags {
-		if tag.Manifest && len(tag.Name) == 40 { // the latest git commit hash tag
-			return tag.Name
-		}
-	}
-
-	return ""
-}
-
 func NewIBMCloudInstallOverlay(installDir, provider string) (pv.InstallOverlay, error) {
 	overlay, err := pv.NewKustomizeOverlay(filepath.Join(installDir, "overlays", provider))
 	if err != nil {
@@ -138,20 +99,6 @@ func (lio *IBMCloudInstallOverlay) Delete(ctx context.Context, cfg *envconf.Conf
 func (lio *IBMCloudInstallOverlay) Edit(ctx context.Context, cfg *envconf.Config, properties map[string]string) error {
 	log.Debugf("%+v", properties)
 	var err error
-
-	// image
-	var newTag string
-	if IBMCloudProps.CaaImageTag != "" {
-		newTag = IBMCloudProps.CaaImageTag
-	} else if isWorkerS390xFlavors() {
-		newTag = getCaaLatestCommitTag()
-	}
-	if newTag != "" {
-		log.Infof("Updating caa image tag with %s", newTag)
-		if err = lio.Overlay.SetKustomizeImage("cloud-api-adaptor", "newTag", newTag); err != nil {
-			return err
-		}
-	}
 
 	for k, v := range properties {
 		// configMapGenerator

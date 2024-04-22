@@ -17,7 +17,6 @@ import (
 	"sigs.k8s.io/e2e-framework/pkg/envconf"
 
 	pv "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/test/provisioner"
-	"github.com/containerd/containerd/reference"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
@@ -362,6 +361,7 @@ func getPropertiesImpl() map[string]string {
 		"AZURE_INSTANCE_SIZE":   AzureProps.InstanceSize,
 		"KBS_IMAGE":             AzureProps.KbsImage,
 		"KBS_IMAGE_TAG":         AzureProps.KbsImageTag,
+		"CAA_IMAGE":             AzureProps.CaaImage,
 	}
 
 	return props
@@ -412,35 +412,6 @@ func (lio *AzureInstallOverlay) Delete(ctx context.Context, cfg *envconf.Config)
 
 func (lio *AzureInstallOverlay) Edit(ctx context.Context, cfg *envconf.Config, properties map[string]string) error {
 	var err error
-
-	// If a custom image is defined then update it in the kustomization file.
-	if AzureProps.CaaImage != "" {
-		spec, err := reference.Parse(AzureProps.CaaImage)
-		if err != nil {
-			return fmt.Errorf("parsing image: %w", err)
-		}
-
-		log.Infof("Updating CAA image with %q", spec.Locator)
-		if err = lio.Overlay.SetKustomizeImage("cloud-api-adaptor", "newName", spec.Locator); err != nil {
-			return err
-		}
-
-		tag, digest := reference.SplitObject(spec.Object)
-
-		if tag != "" && strings.HasSuffix(tag, "@") {
-			tag = tag[:len(tag)-1]
-		}
-
-		log.Infof("Updating CAA image tag with %q", tag)
-		if err = lio.Overlay.SetKustomizeImage("cloud-api-adaptor", "newTag", tag); err != nil {
-			return err
-		}
-
-		log.Infof("Updating CAA image digest with %q", digest)
-		if err = lio.Overlay.SetKustomizeImage("cloud-api-adaptor", "digest", digest.String()); err != nil {
-			return err
-		}
-	}
 
 	for k, v := range properties {
 		// configMapGenerator

@@ -109,6 +109,7 @@ type AWSProvisioner struct {
 	Vpc        *Vpc
 	VxlanPort  string
 	SshKpName  string
+	CaaImage   string
 }
 
 // AwsInstallOverlay implements the InstallOverlay interface
@@ -161,6 +162,7 @@ func NewAWSProvisioner(properties map[string]string) (pv.CloudProvisioner, error
 		Vpc:        vpc,
 		VxlanPort:  properties["vxlan_port"],
 		SshKpName:  properties["ssh_kp_name"],
+		CaaImage:   properties["CAA_IMAGE"],
 	}
 
 	return AWSProps, nil
@@ -262,6 +264,7 @@ func (a *AWSProvisioner) GetProperties(ctx context.Context, cfg *envconf.Config)
 		"access_key_id":        credentials.AccessKeyID,
 		"secret_access_key":    credentials.SecretAccessKey,
 		"vxlan_port":           a.VxlanPort,
+		"CAA_IMAGE":            a.CaaImage,
 	}
 }
 

@@ -31,6 +31,7 @@ type LibvirtProvisioner struct {
 	clusterName   string           // Cluster name
 	kbs_image     string           // KBS Service OCI Image URL
 	kbs_image_tag string           // KBS Service OCI Image Tag
+	caa_image     string           // CAA pod image and tag
 }
 
 // LibvirtInstallOverlay implements the InstallOverlay interface
@@ -92,6 +93,12 @@ func NewLibvirtProvisioner(properties map[string]string) (pv.CloudProvisioner, e
 		kbs_image_tag = properties["KBS_IMAGE_TAG"]
 	}
 
+	// TODO - does libvirt need the dev image and should we have a dev-latest?
+	caa_image := "quay.io/confidential-containers/cloud-api-adaptor:latest"
+	if properties["CAA_IMAGE"] != "" {
+		caa_image = properties["CAA_IMAGE"]
+	}
+
 	// TODO: Check network and storage are not nil?
 	return &LibvirtProvisioner{
 		conn:          conn,
@@ -104,6 +111,7 @@ func NewLibvirtProvisioner(properties map[string]string) (pv.CloudProvisioner, e
 		clusterName:   clusterName,
 		kbs_image:     kbs_image,
 		kbs_image_tag: kbs_image_tag,
+		caa_image:     caa_image,
 	}, nil
 }
 
@@ -210,6 +218,7 @@ func (l *LibvirtProvisioner) GetProperties(ctx context.Context, cfg *envconf.Con
 		"uri":           l.uri,
 		"KBS_IMAGE":     l.kbs_image,
 		"KBS_IMAGE_TAG": l.kbs_image_tag,
+		"CAA_IMAGE":     l.caa_image,
 	}
 }
 

@@ -5,9 +5,11 @@ package ibmcloud
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"path"
 	"path/filepath"
@@ -973,7 +975,54 @@ func (p *IBMCloudProvisioner) GetProperties(ctx context.Context, cfg *envconf.Co
 		"IBMCLOUD_IAM_PROFILE_ID":              IBMCloudProps.IamProfileID,
 		"IBMCLOUD_IAM_ENDPOINT":                IBMCloudProps.IamServiceURL,
 		"IBMCLOUD_PODVM_INSTANCE_PROFILE_LIST": getProfileList(),
+		"CAA_IMAGE":                            getCaaImage(),
 	}
+}
+
+func getCaaImage() string {
+	var newImage string
+	if IBMCloudProps.CaaImage != "" {
+		newImage = IBMCloudProps.CaaImage
+	} else if isWorkerS390xFlavors() {
+		newImage = getCaaLatestCommitImage()
+	}
+	return newImage
+}
+
+func isWorkerS390xFlavors() bool {
+	if strings.HasPrefix(IBMCloudProps.WorkerFlavor, "bz") ||
+		strings.HasPrefix(IBMCloudProps.WorkerFlavor, "cz") ||
+		strings.HasPrefix(IBMCloudProps.WorkerFlavor, "mz") {
+		return true
+	}
+	return false
+}
+
+func getCaaLatestCommitImage() string {
+	resp, err := http.Get("https://quay.io/api/v1/repository/confidential-containers/cloud-api-adaptor/tag/")
+	if err != nil {
+		log.Errorf(err.Error())
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Errorf(err.Error())
+	}
+
+	var result QuayTagsResponse
+	if err := json.Unmarshal(body, &result); err != nil {
+		log.Errorf(err.Error())
+		return ""
+	}
+
+	for _, tag := range result.Tags {
+		if tag.Manifest && len(tag.Name) == 40 { // the latest git commit hash tag
+			return "quay.io/confidential-containers/cloud-api-adaptor/" + tag.Name
+		}
+	}
+
+	return ""
 }
 
 func (p *IBMCloudProvisioner) GetVPCDefaultSecurityGroupID(vpcID string) (string, error) {

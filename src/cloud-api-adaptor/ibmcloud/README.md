@@ -75,7 +75,7 @@ needed in later steps.
 
 
 ## Create a 'self-managed' Kubernetes cluster on IBM Cloud provided infrastructure
-If you don't have a Kubernetes cluster for testing, you can follow the open-source 
+If you don't have a Kubernetes cluster for testing, you can follow the open-source
 [instructions](./cluster)
  to set up a basic cluster where the Kubernetes nodes run on IBM Cloud provided infrastructure.
 
@@ -124,7 +124,7 @@ This will create `caa-provisioner-cli` in the `test/tools` directory. To use the
 export IBMCLOUD_API_KEY= # your ibmcloud apikey
 export PODVM_IMAGE_ID= # the image id of the peerpod vm uploaded in the previous step
 export PODVM_INSTANCE_PROFILE= # instance profile name that runs the peerpod (bx2-2x8 or bz2-2x8 for example)
-export CAA_IMAGE_TAG= # cloud-api-adaptor image tag that supports this arch, see quay.io/confidential-containers/cloud-api-adaptor
+export CAA_IMAGE= # cloud-api-adaptor image that supports this arch, e.g. quay.io/confidential-containers/cloud-api-adaptor:latest
 pushd ibmcloud/cluster
 
 cat <<EOF > ../../selfmanaged_cluster.properties
@@ -132,7 +132,7 @@ IBMCLOUD_PROVIDER="ibmcloud"
 APIKEY="$IBMCLOUD_API_KEY"
 PODVM_IMAGE_ID="$PODVM_IMAGE_ID"
 INSTANCE_PROFILE_NAME="$PODVM_INSTANCE_PROFILE"
-CAA_IMAGE_TAG="$CAA_IMAGE_TAG"
+CAA_IMAGE="$CAA_IMAGE"
 SSH_KEY_ID="$(terraform output --raw ssh_key_id)"
 EOF
 
