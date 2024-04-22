@@ -124,6 +124,7 @@ Use the properties on the table below for Libvirt:
 |pause_image|k8s pause image||
 |vxlan_port| VXLAN port number||
 |cluster_name|Cluster Name| "peer-pods"|
+|CAA_IMAGE|The CAA Image to use|"quay.io/confidential-containers/cloud-api-adaptor:latest"|
 
 # Adding support for a new cloud provider
 
@@ -214,10 +215,11 @@ PODVM_IMAGE_ID="<podvm-image-uploaded-previously>"
 INSTANCE_PROFILE_NAME="bz2-2x8"
 PODVM_IMAGE_ARCH="s390x"
 IMAGE_PULL_API_KEY="<can-be-same-as-apikey>"
-CAA_IMAGE_TAG="<caa-image-tag>"
+CAA_IMAGE="<caa-image-and-tag>"
 EOF
 ```
 
 - For `INSTANCE_PROFILE_NAME`, if it's not secure execution, the value is started with "bz2". If it's secure execution, the value is started with 'bz2e'. More values can be found through ibmcloud command `ibmcloud is instance-profiles`.
 - For `PODVM_IMAGE_ID`, the vpc image id uploaded to ibmcloud.
-- For `CAA_IMAGE_TAG`, the commit id of project. The commit id can be found here: https://github.com/confidential-containers/cloud-api-adaptor/commits/main/
+- For `CAA_IMAGE`, this is the image and tag of the cloud-api-adaptor to be installed and tested e.g.
+`quay.io/confidential-containers:latest"`

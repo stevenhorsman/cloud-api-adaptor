@@ -516,6 +516,30 @@ func (p *CloudAPIAdaptor) Deploy(ctx context.Context, cfg *envconf.Config, props
 		return err
 	}
 
+	// TODO can we do this better with go code?
+	log.Info("Setting the CAA Image env var, if needed")
+	if props["CAA_IMAGE"] != "" {
+		log.Infof("Updating CAA Image image to %s", props["CAA_IMAGE"])
+		cmd = exec.Command("kubectl", "set", "env", "-n", "confidential-containers-system", "deployment/cc-operator-controller-manager",
+			"RELATED_IMAGE_CAA="+props["CAA_IMAGE"])
+		cmd.Env = append(os.Environ(), fmt.Sprintf("KUBECONFIG="+cfg.KubeconfigFile()))
+		stdoutStderr, err = cmd.CombinedOutput()
+		log.Tracef("%v, output: %s", cmd, stdoutStderr)
+		if err != nil {
+			return err
+		}
+
+		// Note - only strictly needed until https://github.com/confidential-containers/cloud-api-adaptor/pull/1814 is integrated into the operator
+		log.Infof("Waiting for rollout of CAA_IMAGE update")
+		cmd = exec.Command("kubectl", "rollout", "status", "deploy/cc-operator-controller-manager", "-n", "confidential-containers-system")
+		cmd.Env = append(os.Environ(), fmt.Sprintf("KUBECONFIG="+cfg.KubeconfigFile()))
+		stdoutStderr, err = cmd.CombinedOutput()
+		log.Tracef("%v, output: %s", cmd, stdoutStderr)
+		if err != nil {
+			return err
+		}
+	}
+
 	log.Info("Customize the overlay yaml file")
 	if err := p.installOverlay.Edit(ctx, cfg, props); err != nil {
 		return err
