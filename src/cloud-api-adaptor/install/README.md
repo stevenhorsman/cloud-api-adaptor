@@ -39,11 +39,14 @@
 ### Using make deploy
 
 You can deploy the CoCo operator and cloud-api-adaptor with the `Makefile` by running
+* *Optional:* If you want to use a specific cloud-api-adaptor then set CAA_IMAGE e.g.
+    ```
+    export CAA_IMAGE="quay.io/confidential-containers/cloud-api-adaptor:latest"
+    ```
 * set CLOUD_PROVIDER
     ```
     export CLOUD_PROVIDER=<aws|azure|ibmcloud|ibmcloud-powervs|libvirt|vsphere>
     ```
-    * `RESOURCE_CTRL` is set to `true` by default to allow the peerpod-ctrl to run, monitor and delete dangling cloud resources
 
 * `make deploy` deploys operator, runtime and cloud-api-adaptor pod in the configured cluster
     * validate kubectl is available in your `$PATH` and `$KUBECONFIG` is set
@@ -56,6 +59,7 @@ Alternatively the manual approach, is:
 
 - Deploy the CoCo operator
 
+  <!-- TODO - uncomment when 0.9 is released
   - Either deploy a release version of the peer pods enabled CoCo operator, by running the following command where
   `<RELEASE_VERSION>` needs to be substituted with the desired [release tag](https://github.com/confidential-containers/operator/tags):
   > **Note:** the release version needs to be `v0.9.0` or after
@@ -64,21 +68,29 @@ Alternatively the manual approach, is:
   kubectl apply -k github.com/confidential-containers/operator/config/overlays/peerpods/default?ref=<RELEASE_VERSION>
   ```
 
-  - Alternatively install the latest development version with:
+  - Alternatively i-->
+  - Install the latest development version with:
   ```
   kubectl apply -k "github.com/confidential-containers/operator/config/overlays/peerpods/default"
   ```
 
+- If you want to use a specific cloud-api-adaptor image & tag then you can modify the peerpodconfig controller with:
+  ```
+  kubectl set env -n confidential-containers-system deployment/cc-operator-controller-manager RELATED_IMAGE_CAA=<caa_image>:<tag>
+  ```
+
 - Create the peer pods variant of the CC custom resource to install the required pieces of CC and create the `kata-remote` `RuntimeClass`
 
-  - Again, either deploy a release version of the Confidential Containers peer pod customer resource with, by running the following command where `<RELEASE_VERSION>` needs to be substituted with the desired [release tag](https://github.com/confidential-containers/operator/tags):
+  <!-- TODO - uncomment when 0.9 is released
+  - Either deploy a release version of the Confidential Containers peer pod customer resource with, by running the following command where `<RELEASE_VERSION>` needs to be substituted with the desired [release tag](https://github.com/confidential-containers/operator/tags):
   > **Note:** the release version needs to be `v0.9.0` or after
   ```
   export RELEASE_VERSION=<RELEASE_VERSION>
   kubectl apply -k github.com/confidential-containers/operator/config/samples/ccruntime/peer-pods?ref=<RELEASE_VERSION>
   ```
 
-  - Alternatively install the latest development version with:
+  - Alternatively i-->
+  - Install the latest development version with:
   ```
   kubectl apply -k "github.com/confidential-containers/operator/config/samples/ccruntime/peer-pods"
   ```

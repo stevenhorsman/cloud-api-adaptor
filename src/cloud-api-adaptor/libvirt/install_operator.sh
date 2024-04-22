@@ -15,6 +15,7 @@ LIBVIRT_USER="${LIBVIRT_USER:-$USER}"
 LIBVIRT_NET="${LIBVIRT_NET:-default}"
 LIBVIRT_POOL="${LIBVIRT_POOL:-default}"
 SSH_KEY_FILE="${SSH_KEY_FILE:-id_rsa}"
+CAA_IMAGE="${CAA_IMAGE:-"quay.io/confidential-containers/cloud-api-adaptor:latest"}"
 
 # Apply the 'node.kubernetes.io/worker' label on all worker nodes.
 #
@@ -111,7 +112,7 @@ main() {
 		"$kustomization_file"
 
 	# Finally install the operator
-	(cd "$script_dir/.." && make CLOUD_PROVIDER=libvirt deploy)
+	(cd "$script_dir/.." && make CAA_IMAGE=${CAA_IMAGE} CLOUD_PROVIDER=libvirt deploy)
 
 	wait_pods
 }

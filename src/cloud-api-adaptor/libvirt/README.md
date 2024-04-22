@@ -94,12 +94,11 @@ Allocation:     631.52 MiB
 
 The easiest way to install the cloud-api-adaptor along with Confidential
 Containers in the cluster is through the Kubernetes operator
-[`install_operator.sh`](./install_operator.sh) script.
-
-If you need to set any non-default parameter, please run the script with the
-`--help` option.
+[`install_operator.sh`](./install_operator.sh) script. Optionally set the
+CAA_IMAGE if you wish to use a specific image and tag.
 
 ```
+$ export CAA_IMAGE="quay.io/confidential-containers/cloud-api-adaptor:latest"
 $ export SSH_KEY_FILE="id_rsa"
 $ ./libvirt/install_operator.sh
 ```
