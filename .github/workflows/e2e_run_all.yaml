@@ -120,27 +120,6 @@ jobs:
           curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | \
             bash -s /usr/local/bin
 
-      - name: Update kustomization configuration
-        run: |
-          providers=(${{ env.PROVIDERS }})
-          # If there aren't providers then something is wrong
-          [[ ${#providers[@]} -gt 0 ]] || exit 1
-          for provider in ${providers[@]}; do
-            img="${E2E_IMG_REGISTRY}/cloud-api-adaptor"
-            tag="${E2E_IMG_RELEASE_TAG}"
-            [[ "$provider" = "libvirt" ]] && tag="${E2E_IMG_DEV_TAG}"
-            echo "::group::Update ${provider}"
-            pushd "install/overlays/${provider}"
-            kustomize edit set image "cloud-api-adaptor=${img}:${tag}"
-            # Print for debugging
-            cat kustomization.yaml
-            echo "::endgroup::"
-            # Validate the file to avoid it silently testing with a wrong image
-            grep "newName: ${img}" kustomization.yaml
-            grep "newTag: ${tag}" kustomization.yaml
-            popd
-          done
-
       - name: Upload install directory for next test runs
         uses: actions/upload-artifact@v3
         with:
