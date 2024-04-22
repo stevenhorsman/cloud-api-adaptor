@@ -7,6 +7,8 @@ include Makefile.defaults
 
 SHELL = bash -o pipefail
 
+CAA_IMAGE	?= "quay.io/confidential-containers/cloud-api-adaptor:latest"
+
 ARCH        ?= $(subst x86_64,amd64,$(shell uname -m))
 # Default is dev build. To create release build set RELEASE_BUILD=true
 RELEASE_BUILD ?= false
@@ -118,11 +120,15 @@ image-with-arch: .git-commit ## Build the per arch image
 ##@ Deployment
 
 .PHONY: deploy
-deploy: ## Deploy cloud-api-adaptor using the operator, according to install/overlays/$(CLOUD_PROVIDER)/kustomization.yaml file.
+deploy: ## Deploy cloud-api-adaptor using the operator, using the $CAA_IMAGE image according to install/overlays/$(CLOUD_PROVIDER)/kustomization.yaml file.
 ifneq ($(CLOUD_PROVIDER),)
 	kubectl apply -k "github.com/confidential-containers/operator/config/overlays/peerpods/default"
+	kubectl set env -n confidential-containers-system deployment/cc-operator-controller-manager RELATED_IMAGE_CAA=${CAA_IMAGE}
+
+	kubectl rollout status deploy/cc-operator-controller-manager -n confidential-containers-system
+
 	kubectl apply -k "github.com/confidential-containers/operator/config/samples/ccruntime/peer-pods"
-	kubectl apply -k install/overlays/$(CLOUD_PROVIDER)
+	kubectl apply -k install/overlays/${CLOUD_PROVIDER}
 else
 	$(error CLOUD_PROVIDER is not set)
 endif
