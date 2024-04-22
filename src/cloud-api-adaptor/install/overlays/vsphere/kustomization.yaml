@@ -4,10 +4,8 @@ kind: Kustomization
 resources:
 - ../../yamls
 
-images:
-- name: cloud-api-adaptor
-  newName: quay.io/confidential-containers/cloud-api-adaptor # change image if needed
-  newTag: latest
+# Note the cloud-api-adaptor daemonset image can now be updated by running:
+# `kubectl set env -n confidential-containers-system deployment/cc-operator-controller-manager RELATED_IMAGE_CAA=<image:tag>`
 
 generatorOptions:
   disableNameSuffixHash: true
