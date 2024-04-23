@@ -341,7 +341,7 @@ scp src/libvirt/build/entrypoint.sh root@worker-ip:/opt/cloud-api-adaptor/plugin
 ### Step 8: Update cloud-api-adaptor damonset to use the external `libvirt` plugin
 - Run the `kubectl edit` command to update cloud-api-adaptor damonset
 ```bash
-kubectl edit ds cloud-api-adaptor-daemonset -n confidential-containers-system
+kubectl edit ds peerpodconfig-ctrl-caa-daemon -n confidential-containers-system
 ```
 - Overwrite the command
 ```yaml
@@ -350,7 +350,7 @@ kubectl edit ds cloud-api-adaptor-daemonset -n confidential-containers-system
       - command:
         - /cloud-providers/entrypoint.sh
 ```
-- Mount `/opt/cloud-api-adaptor/plugins/` from worker node to the `cloud-api-adaptor-con` container
+- Mount `/opt/cloud-api-adaptor/plugins/` from worker node to the `caa-pod` container
 ```yaml
 ...
         volumeMounts:
@@ -385,7 +385,7 @@ kubectl edit deployment peerpod-ctrl-controller-manager -n confidential-containe
 ```
 ### Step 10: Verify cloud-api-adaptor/peerpod-ctrl pod is running without error
 ```bash
-kubectl logs -n confidential-containers-system ds/cloud-api-adaptor-daemonset
+kubectl logs -n confidential-containers-system ds/peerpodconfig-ctrl-caa-daemon
 
 + exec cloud-api-adaptor libvirt -uri 'qemu+ssh://root@192.168.122.1/system?no_verify=1' -data-dir /opt/data-dir -pods-dir /run/peerpod/pods -network-name default -pool-name default -disable-cvm -socket /run/peerpod/hypervisor.sock
 2024/04/17 04:34:56 [adaptor/cloud] Loading external plugin libvirt from /cloud-providers/libvirt.so

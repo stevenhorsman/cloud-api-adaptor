@@ -8,13 +8,13 @@ The `docker` provider simulates a pod VM inside a docker container.
 
 - Install `docker` [engine](https://docs.docker.com/engine/install/) on your K8s worker node
 
-  Ensure docker engine supports API version 1.44+. You can verify it by running 
+  Ensure docker engine supports API version 1.44+. You can verify it by running
   `docker version`.
   Docker engine version 26+ supports API 1.44.
 
   Ensure you complete the [post install steps](https://docs.docker.com/engine/install/linux-postinstall/) if using non-root user
-  
-  
+
+
 - Kubernetes cluster
 
 ## Build CAA pod-VM image
@@ -26,13 +26,13 @@ export CLOUD_PROVIDER=docker
 ```
 
 - Build the required pod VM binaries
- 
+
 ```bash
 cd src/cloud-api-adaptor/docker/image
 make
 ```
 
-This will build the required binaries inside a container and place 
+This will build the required binaries inside a container and place
 it under `resources/binaries-tree`
 
 - Build the pod VM image
@@ -80,7 +80,7 @@ For changing the CAA image to your custom built image (eg. `quay.io/myuser/cloud
 you can use the following:
 
 ```bash
-kubectl set image ds/cloud-api-adaptor-daemonset -n confidential-containers-system cloud-api-adaptor-con=quay.io/myuser/cloud-api-adaptor
+kubectl set image ds/peerpodconfig-ctrl-caa-daemon -n confidential-containers-system caa-pod=quay.io/myuser/cloud-api-adaptor
 ```
 
 ## Run sample application
@@ -138,7 +138,7 @@ Ensure that the pod is up and running:
 kubectl get pods -n default
 ```
 
-You could run `docker ps` command to view the docker container running. 
+You could run `docker ps` command to view the docker container running.
 The docker container name will be the pod name prefixed with `podvm`.
 
 Example:
@@ -151,7 +151,7 @@ nginx-dbc79c87-jt49h   1/1     Running   1 (3m22s ago)   3m29s
 $ docker ps
 CONTAINER ID   IMAGE                                                COMMAND                  CREATED         STATUS         PORTS       NAMES
 e60b768b847d   quay.io/confidential-containers/podvm-docker-image   "/usr/local/bin/entr…"   3 minutes ago   Up 3 minutes   15150/tcp   podvm-nginx-dbc79c87-jt49h-b9361aef
-``` 
+```
 
 For debugging you can use docker commands like `docker ps`, `docker logs`, `docker exec`.
 
@@ -160,4 +160,3 @@ For debugging you can use docker commands like `docker ps`, `docker logs`, `dock
 ```sh
 kubectl delete deployment nginx
 ```
-

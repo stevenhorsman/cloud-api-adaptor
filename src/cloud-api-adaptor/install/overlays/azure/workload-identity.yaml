@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: cloud-api-adaptor-daemonset
+  name: peerpodconfig-ctrl-caa-daemon
   namespace: confidential-containers-system
 spec:
   template:

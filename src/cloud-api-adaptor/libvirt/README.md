@@ -109,8 +109,8 @@ If everything goes well you will be able to see the operator's controller manage
 $ kubectl get pods -n confidential-containers-system
 NAME                                              READY   STATUS    RESTARTS   AGE
 cc-operator-controller-manager-5df7584679-5dbmr   2/2     Running   0          3m58s
-cloud-api-adaptor-daemonset-vgj2s                 1/1     Running   0          3m57s
-$ kubectl logs pod/cloud-api-adaptor-daemonset-vgj2s -n confidential-containers-system
+peerpodconfig-ctrl-caa-daemon-vgj2s                 1/1     Running   0          3m57s
+$ kubectl logs -f ds/peerpodconfig-ctrl-caa-daemon -n confidential-containers-system
 + exec cloud-api-adaptor libvirt -uri 'qemu+ssh://wmoschet@192.168.122.1/system?no_verify=1' -data-dir /opt/data-dir -pods-dir /run/peerpod/pods -network-name default -pool-name default -socket /run/peerpod/hypervisor.sock
 2022/11/09 18:18:00 [helper/hypervisor] hypervisor config {/run/peerpod/hypervisor.sock  registry.k8s.io/pause:3.7 /run/peerpod/pods libvirt}
 2022/11/09 18:18:00 [helper/hypervisor] cloud config {qemu+ssh://wmoschet@192.168.122.1/system?no_verify=1 default default /opt/data-dir}
@@ -233,38 +233,14 @@ $ kubectl get pods -n confidential-containers-system
 NAME                                             READY   STATUS    RESTARTS   AGE
 cc-operator-controller-manager-fbb5dcf9d-h42nn   2/2     Running   0          20h
 cc-operator-daemon-install-fkkzz                 1/1     Running   0          20h
-cloud-api-adaptor-daemonset-libvirt-lxj7v        1/1     Running   0          20h
+peerpodconfig-ctrl-caa-daemon-lxj7v              1/1     Running   0          20h
 ```
 
-In order to remove the *\*-cloud-api-adaptor-daemonset-\** pod, run the following command from the
-root directory:
+In order to clean up the Confidential Containers install, (the ccruntime resource, the cc-operator-daemon-install and
+cc-operator-pre-install-daemon pods) run:
 
 ```
 $ CLOUD_PROVIDER=libvirt make delete
-
-kubectl delete -k install/overlays/libvirt
-serviceaccount "cloud-api-adaptor" deleted
-clusterrole.rbac.authorization.k8s.io "node-viewer" deleted
-clusterrole.rbac.authorization.k8s.io "peerpod-editor" deleted
-clusterrole.rbac.authorization.k8s.io "pod-viewer" deleted
-clusterrolebinding.rbac.authorization.k8s.io "node-viewer" deleted
-clusterrolebinding.rbac.authorization.k8s.io "peerpod-editor" deleted
-clusterrolebinding.rbac.authorization.k8s.io "pod-viewer" deleted
-configmap "peer-pods-cm" deleted
-secret "auth-json-secret" deleted
-secret "peer-pods-secret" deleted
-secret "ssh-key-secret" deleted
-daemonset.apps "cloud-api-adaptor-daemonset" deleted
-```
-
-This can be useful if one needs to update kustomization.yaml. After making changes, one can re-apply the cloud-api-adaptor with:
-```
-kubectl apply -k install/overlays/libvirt/
-```
-
-To delete Confidential Containers, (the ccruntime resource, the cc-operator-daemon-install and cc-operator-pre-install-daemon pods) run:
-
-```
 $ kubectl delete -k "github.com/confidential-containers/operator/config/samples/ccruntime/peer-pods"
 
 ccruntime.confidentialcontainers.org "ccruntime-peer-pods" deleted

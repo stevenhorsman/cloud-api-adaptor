@@ -128,13 +128,13 @@ Alternatively the manual approach, is:
     cc-operator-controller-manager-546574cf87-phbdv   2/2     Running   0          43m
     cc-operator-daemon-install-pzc4b                  1/1     Running   0          42m
     cc-operator-pre-install-daemon-sgld6              1/1     Running   0          42m
-    cloud-api-adaptor-daemonset-mk8ln                 1/1     Running   0          37s
+    peerpodconfig-ctrl-caa-daemon-mk8ln                 1/1     Running   0          37s
     ```
 
 * View cloud-api-adaptor logs
 
     ```
-    kubectl logs pod/cloud-api-adaptor-daemonset-mk8ln -n confidential-containers-system
+    kubectl logs ds/peerpodconfig-ctrl-caa-daemon -n confidential-containers-system
     ```
 
 ## Building custom cloud-api-adaptor image

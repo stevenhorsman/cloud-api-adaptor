@@ -1,21 +1,20 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: cloud-api-adaptor-daemonset
+  name: peerpodconfig-ctrl-caa-daemon
   namespace: confidential-containers-system
   labels:
-    app: cloud-api-adaptor
+    name: peerpodconfig-ctrl-caa-daemon
 spec:
   template:
     spec:
       containers:
-      - name: cloud-api-adaptor-con
-        volumeMounts:
-        - mountPath: /run/kata-containers/shared/direct-volumes
-          name: kata-direct-volumes-dir
+        - name: caa-pod
+          volumeMounts:
+            - mountPath: /run/kata-containers/shared/direct-volumes
+              name: kata-direct-volumes-dir
       volumes:
-      - name: kata-direct-volumes-dir
-        hostPath:
-          path: /run/kata-containers/shared/direct-volumes
-          type: DirectoryOrCreate
-
+        - name: kata-direct-volumes-dir
+          hostPath:
+            path: /run/kata-containers/shared/direct-volumes
+            type: DirectoryOrCreate

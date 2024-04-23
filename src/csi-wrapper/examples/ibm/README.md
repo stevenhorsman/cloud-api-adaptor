@@ -261,7 +261,7 @@ from nignx container date: Tue Jun 20 07:40:08 UTC 2023
 ```
 kubectl logs -n kube-system ibm-vpc-block-csi-controller-664ccf487d-q9zjh -c csi-controller-wrapper -f
 ```
-- Monitor the cloud-api-adaptor-daemonset log:
+- Monitor the cloud-api-adaptor daemonset log:
 ```
-kubectl logs -n confidential-containers-system cloud-api-adaptor-daemonset-gx69f -f
+kubectl logs -f ds/peerpodconfig-ctrl-caa-daemon -n confidential-containers-system
 ```

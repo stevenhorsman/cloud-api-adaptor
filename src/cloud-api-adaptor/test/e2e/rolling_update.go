@@ -189,7 +189,7 @@ func DoTestCaaDaemonsetRollingUpdate(t *testing.T, testEnv env.Environment, asse
 				t.Fatal(err)
 			}
 
-			caaDaemonSetName := "cloud-api-adaptor-daemonset"
+			caaDaemonSetName := "peerpodconfig-ctrl-caa-daemon"
 			caaNamespace := "confidential-containers-system"
 
 			ds := &appsv1.DaemonSet{}
