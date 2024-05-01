@@ -342,7 +342,7 @@ func (tc *TestCase) Run() {
 						t.Fatal(err)
 					}
 					for _, caaPod := range podlist.Items {
-						if caaPod.Labels["app"] == "cloud-api-adaptor" {
+						if caaPod.Labels["name"] == "peerpodconfig-ctrl-caa-daemon" {
 							imagePullTime, err := WatchImagePullTime(ctx, client, caaPod, *tc.pod)
 							if err != nil {
 								t.Fatal(err)

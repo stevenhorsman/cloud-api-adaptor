@@ -163,7 +163,7 @@ func IsPulledWithNydusSnapshotter(ctx context.Context, t *testing.T, client klie
 		t.Fatal(err)
 	}
 	for _, pod := range podlist.Items {
-		if pod.Labels["app"] == "cloud-api-adaptor" && pod.Spec.NodeName == nodeName {
+		if pod.Labels["name"] == "peerpodconfig-ctrl-caa-daemon" && pod.Spec.NodeName == nodeName {
 			podLogString, err := GetPodLog(ctx, client, pod)
 			if err != nil {
 				return false, err
