@@ -14,8 +14,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.15.11
 	github.com/aws/aws-sdk-go-v2/credentials v1.12.6 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.117.0
-	github.com/containerd/containerd v1.6.8
-	github.com/containerd/ttrpc v1.1.0
+	github.com/containerd/containerd v1.6.26
+	github.com/containerd/ttrpc v1.1.2
 	github.com/containernetworking/plugins v1.1.1
 	github.com/containers/podman/v4 v4.2.0
 	github.com/coreos/go-iptables v0.6.0
@@ -30,7 +30,7 @@ require (
 	golang.org/x/sys v0.18.0
 	google.golang.org/grpc v1.61.2
 	gopkg.in/yaml.v2 v2.4.0
-	k8s.io/cri-api v0.23.1
+	k8s.io/cri-api v0.25.0
 	libvirt.org/go/libvirt v1.9008.0
 	libvirt.org/go/libvirtxml v1.9007.0
 )
