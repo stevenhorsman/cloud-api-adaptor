@@ -137,6 +137,21 @@ Alternatively the manual approach, is:
     kubectl logs ds/peerpodconfig-ctrl-caa-daemon -n confidential-containers-system
     ```
 
+## Workaround: Updating nydus-snapshotter to a fork
+
+There is an issue with containerd not caching images with snapshotter labels and peer-pods using the nydus-snapshotter to implement
+the image pull on guest.
+Chengyu's has implemented a workaround in the nydus-snapshotter in https://github.com/containerd/nydus-snapshotter/pull/593
+and we want to try it out before it has been merged, released and the CoCo operator updated to consume it to get peer pods working.
+To try this temporary experimental feature run:
+```
+./hack/nydus-snapshotter-fork-deploy.sh
+```
+After completion you can check it has worked with:
+```
+kubectl get pod -o json -n nydus-system | jq .items[].spec.containers[].image
+```
+
 ## Building custom cloud-api-adaptor image
 
 * Set CLOUD_PROVIDER

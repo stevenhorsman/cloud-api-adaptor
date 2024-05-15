@@ -593,6 +593,15 @@ func (p *CloudAPIAdaptor) Deploy(ctx context.Context, cfg *envconf.Config, props
 		return err
 	}
 
+	// Temp workaround to update the nydus-snapshotter with Chengyu's branch
+	cmd = exec.Command("../../hack/nydus-snapshotter-fork-deploy.sh")
+	cmd.Env = append(os.Environ(), fmt.Sprintf("KUBECONFIG="+cfg.KubeconfigFile()))
+	stdoutStderr, err = cmd.CombinedOutput()
+	log.Infof("%v, output: %s", cmd, stdoutStderr)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
