@@ -76,7 +76,7 @@ PHONY: image
 image:
 	@echo "Enabling production preset..."
 	rm -rf resources/build*Image
-	rm -rf ./build
+	sudo rm -rf ./build
 	@echo "Building image..."
 ifeq ($(SE_BOOT),true)
 	touch resources/buildS390xImage
@@ -97,7 +97,7 @@ image-debug:
 	@echo "Enabling debug preset..."
 	rm -rf resources/build*Image
 	touch resources/buildDebugImage
-	rm -rf ./build
+	sudo rm -rf ./build
 	@echo "Building debug image..."
 ifeq ($(SE_BOOT),true)
 	touch resources/buildS390xImage
@@ -143,5 +143,5 @@ push-image-container:
 PHONY: clean
 clean:
 	rm -rf resources/buildDebugImage
-	rm -rf ./build
+	sudo rm -rf ./build
 	rm -rf ./resources/binaries-tree
