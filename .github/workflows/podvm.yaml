@@ -84,3 +84,6 @@ jobs:
     uses: ./.github/workflows/podvm_mkosi.yaml
     with:
       binaries-image: ${{ inputs.registry }}/podvm-binaries-fedora-amd64:${{ inputs.image_tag }}
+      registry: ghcr.io
+      image_tag: ${{ inputs.image_tag }}
+      git_ref: ${{ inputs.git_ref }}
