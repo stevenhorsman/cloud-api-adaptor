@@ -52,6 +52,4 @@ RUN ./hack/cross-build-extras-fedora.sh
 RUN LIBC=gnu make binaries
 
 FROM scratch
-COPY --from=podvm_builder /podvm-binaries.tar.gz /
-COPY --from=podvm_builder /pause-bundle.tar.gz /
 COPY --from=podvm_builder /src/cloud-api-adaptor/podvm/files /
