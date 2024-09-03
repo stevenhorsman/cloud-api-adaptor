@@ -22,16 +22,22 @@ defaults:
 jobs:
   build:
     name: Create pod vm binaries image
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
+        runner:
+          - ubuntu-22.04
+          - S390X
         os:
           - ubuntu
           - fedora
-        arch:
-          - amd64
-          - s390x
+        include:
+          - runnner: S390X
+            arch: s390x
+          - runnner: ubuntu-22.04
+            arch: amd64
+
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
