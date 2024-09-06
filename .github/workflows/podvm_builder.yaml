@@ -22,16 +22,15 @@ defaults:
 jobs:
   build:
     name: Create pod vm builder image
-    runs-on: ${{ matrix.runner }}
+    runs-on: ${{ matrix.platforms.runner }}
     strategy:
       fail-fast: false
       matrix:
-        os:
-          # Please keep this list in alphabetical order.
-          - fedora
-          - ubuntu
-        runner:
-          - ubuntu-latest
+        platforms: [
+          { os: "fedora", arch: "amd64", runner: "ubuntu-22.04"},
+          { os: "fedora", arch: "s390x", runner: "S390X" },
+          { os: "ubuntu", arch: "amd64", runner: "ubuntu-22.04" }
+        ]
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
@@ -77,5 +76,6 @@ jobs:
       env:
           PUSH: true
           REGISTRY: ${{ inputs.registry }}
+          ARCH: ${{ matrix.platforms.arch }}
           PODVM_TAG: ${{ inputs.image_tag }}
-          PODVM_DISTRO: ${{ matrix.os }}
+          PODVM_DISTRO: ${{ matrix.platforms.os }}
