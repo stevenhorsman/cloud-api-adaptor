@@ -152,8 +152,15 @@ REGISTRY ?= quay.io/confidential-containers
 PODVM_DISTRO ?= ubuntu
 PODVM_TAG ?= $(VERSIONS_HASH)
 
-PODVM_BUILDER_IMAGE ?= $(REGISTRY)/podvm-builder-$(PODVM_DISTRO):$(PODVM_TAG)
+PODVM_BUILDER_IMAGE ?= $(REGISTRY)/podvm-builder-$(PODVM_DISTRO)-$(ARCH):$(PODVM_TAG)
 PODVM_BINARIES_IMAGE ?= $(REGISTRY)/podvm-binaries-$(PODVM_DISTRO)-$(ARCH):$(PODVM_TAG)
+
+# ubuntu builder is "archless" for legacy reasons. This will be removed when we just switch to fedora OS base
+ifeq ($(PODVM_DISTRO),ubuntu)
+	override PODVM_BUILDER_IMAGE = $(REGISTRY)/podvm-builder-$(PODVM_DISTRO):$(PODVM_TAG)
+	override PODVM_BINARIES_IMAGE = $(REGISTRY)/podvm-binaries-$(PODVM_DISTRO):$(PODVM_TAG)
+endif
+
 PODVM_IMAGE ?= $(REGISTRY)/podvm-$(or $(CLOUD_PROVIDER),generic)-$(PODVM_DISTRO)-$(ARCH):$(PODVM_TAG)
 
 PUSH ?= false
@@ -176,7 +183,7 @@ podvm-builder:
 	--build-arg YQ_VERSION=$(YQ_VERSION) \
 	--build-arg YQ_CHECKSUM=${YQ_CHECKSUM_$(ARCH)} \
 	--build-arg YQ_ARCH=$(ARCH) \
-	--build-arg PROTOC_ARCH=$(if $(filter amd64,$(ARCH)),x86_64,s390_64) \
+	--build-arg PROTOC_ARCH=$(if $(filter amd64,$(ARCH)),x86_64,s390x) \
 	--build-arg ORAS_VERSION=$(ORAS_VERSION) \
 	$(DOCKER_OPTS) .
 
