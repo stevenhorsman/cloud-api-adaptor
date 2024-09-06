@@ -22,18 +22,17 @@ defaults:
 jobs:
   build:
     name: Create pod vm binaries image
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.platforms.runner }}
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu
-        arch:
-          - amd64
-          - s390x
-        include:
-          - os: fedora
-            arch: amd64
+        platforms: [
+          { os: "fedora", arch: "amd64", runner: "ubuntu-22.04"},
+          { os: "fedora", arch: "s390x", runner: "S390X" },
+          { os: "ubuntu", arch: "amd64", runner: "ubuntu-22.04" },
+          { os: "ubuntu", arch: "s390x", runner: "ubuntu-22.04" }
+        ]
+
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
@@ -74,11 +73,16 @@ jobs:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Install build dependencies
+      if: ${{ matrix.platforms.runner == 'S390X' }}
+      run: |
+        sudo snap install yq
+
     - name: Build and push
       run: make podvm-binaries
       env:
           PUSH: true
           REGISTRY: ${{ inputs.registry }}
-          ARCH: ${{ matrix.arch }}
+          ARCH: ${{ matrix.platforms.arch }}
           PODVM_TAG: ${{ inputs.image_tag }}
-          PODVM_DISTRO: ${{ matrix.os }}
+          PODVM_DISTRO: ${{ matrix.platforms.os }}
