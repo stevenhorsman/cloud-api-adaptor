@@ -5,14 +5,16 @@
 name: (Callable) libvirt e2e tests
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       podvm_image:
         required: true
         type: string
+        default: 'ghcr.io/confidential-containers/podvm-generic-ubuntu-amd64:latest'
       caa_image:
         required: true
         type: string
+        default: 'ghcr.io/confidential-containers/cloud-api-adaptor:latest-dev'
       install_directory_artifact:
         description: The archive name of the install directory
         default: ''
