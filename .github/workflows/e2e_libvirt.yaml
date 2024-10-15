@@ -86,12 +86,12 @@ jobs:
           # For debugging
           cat libvirt.properties
 
-      - name: Install rust toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: ${{ env.RUST_VERSION }}
-          override: true
-          profile: minimal
+      # - name: Install rust toolchain
+      #   uses: actions-rs/toolchain@v1
+      #   with:
+      #     toolchain: ${{ env.RUST_VERSION }}
+      #     override: true
+      #     profile: minimal
 
       - name: Install gh cli
         run: |

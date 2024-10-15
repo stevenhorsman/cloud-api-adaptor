@@ -25,7 +25,9 @@ KBS_SHA="$(git rev-parse HEAD)"
 sudo apt-get update -y
 sudo apt-get install -y build-essential pkg-config libssl-dev
 pushd kbs
-make CLI_FEATURES=sample_only cli
+arch=$(uname -m)
+oras pull "ghcr.io/confidential-containers/staged-images/kbs-client:sample_only-${arch}-linux-gnu-${KBS_SHA}"
+chmod +x ./kbs-client
 popd
 
 pushd kbs/config/kubernetes/base/
