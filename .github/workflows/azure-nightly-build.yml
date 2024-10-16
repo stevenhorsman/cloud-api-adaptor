@@ -9,7 +9,7 @@ on:
 jobs:
   generate-podvm-image-version:
     if: github.event.inputs.podvm-image-id == ''
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       image-version: "${{ steps.generate-image-version.outputs.image-version }}"
     steps:
