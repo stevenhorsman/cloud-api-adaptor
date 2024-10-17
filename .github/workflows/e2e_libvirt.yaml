@@ -119,6 +119,7 @@ jobs:
           export DEPLOY_KBS=true
           export TEST_PROVISION="yes"
           export TEST_TEARDOWN="no"
+          export LOG_LEVEL="trace"
           export TEST_PROVISION_FILE="$PWD/libvirt.properties"
           export TEST_PODVM_IMAGE="${{ env.PODVM_QCOW2 }}"
           export TEST_E2E_TIMEOUT="75m"
