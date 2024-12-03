@@ -202,18 +202,18 @@ jobs:
           go install github.com/google/go-containerregistry/cmd/crane@latest
           echo "PATH=${PATH}:$(go env GOPATH)/bin" >> "$GITHUB_ENV"
 
-        # This removes the checkout and creates a btrfs volume with maximized
-        # build space.
-      - name: Maximize build space
-        if: ${{ inputs.arch == 'amd64' }}
-        uses: katexochen/maximize-build-space@btrfs
-        with:
-          swap-size-mb: 1024
-          remove-dotnet: "true"
-          remove-android: "true"
-          remove-haskell: "true"
-          remove-codeql: "true"
-          remove-docker-images: "true"
+      #   # This removes the checkout and creates a btrfs volume with maximized
+      #   # build space.
+      # - name: Maximize build space
+      #   if: ${{ inputs.arch == 'amd64' }}
+      #   uses: katexochen/maximize-build-space@btrfs
+      #   with:
+      #     swap-size-mb: 1024
+      #     remove-dotnet: "true"
+      #     remove-android: "true"
+      #     remove-haskell: "true"
+      #     remove-codeql: "true"
+      #     remove-docker-images: "true"
 
       - name: Second checkout
         if: ${{ inputs.arch == 'amd64' }}
