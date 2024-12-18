@@ -99,4 +99,4 @@ make image
 # SE_BOOT=true make image-debug
 ```
 
-The final output is `build/podvm-s390x.qcow2` or `build/podvm-s390x-se.qcow2`, which can be used as the Pod VM image in libvirt environment.
+The final output is `build/podvm-s390x.qcow2` or `build/podvm-s390x-se.qcow2`, which can be used as the Pod VM image in libvirt environment. ads
