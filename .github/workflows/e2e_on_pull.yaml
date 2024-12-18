@@ -33,7 +33,10 @@ concurrency:
 jobs:
   authorize:
     runs-on: ubuntu-24.04
-    if: contains(github.event.pull_request.labels.*.name, 'test_e2e_libvirt')
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'test_e2e_libvirt') ||
+      contains(github.event.pull_request.labels.*.name, 'test_e2e_libvirt_amd64') ||
+      contains(github.event.pull_request.labels.*.name, 'test_e2e_libvirt_s390x')
     steps:
       - run: "true"
   e2e:
