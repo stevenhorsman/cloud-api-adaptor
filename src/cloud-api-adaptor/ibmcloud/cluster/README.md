@@ -5,7 +5,7 @@ This can then be used to test the cloud-api adaptor and peer-pods.
 
 ## Prerequisites
 
-To create the Kubernetes cluster, you need to install terraform, Ansible and the IBM Cloud CLI on your 
+To create the Kubernetes cluster, you need to install terraform, Ansible and the IBM Cloud CLI on your
 'development machine'. To manage the cluster you will need to install `kubectl`.
 Please follow the the official installation guides:
 
@@ -40,7 +40,7 @@ Please follow the the official installation guides:
 >     ```
 > - You can use the [IBM Cloud Web UI](https://cloud.ibm.com/vpc-ext/overview) for most of the operations of IBM Cloud.
 And please make sure that you are selecting the correct region in the Web UI.
-> 
+>
 
 * You need IBM Cloud API key. You can create your own API key at [https://cloud.ibm.com/iam/apikeys](https://cloud.ibm.com/iam/apikeys).
 
@@ -73,14 +73,14 @@ containerd_version = "<the version of containerd installed on the Kubernetes nod
 #### Parameters
 
 > **Notes:**
-> - `ibmcloud_api_key` is your IBM Cloud API key that you created at 
+> - `ibmcloud_api_key` is your IBM Cloud API key that you created at
 [https://cloud.ibm.com/iam/apikeys](https://cloud.ibm.com/iam/apikeys).
 > - `ssh_key_name` is the name of your SSH key registered in IBM Cloud or the name of a new SSH key if a public key is
-also provided using the optional `ssh_pub_key` parameter. You can add your SSH key at 
+also provided using the optional `ssh_pub_key` parameter. You can add your SSH key at
 [https://cloud.ibm.com/vpc-ext/compute/sshKeys](https://cloud.ibm.com/vpc-ext/compute/sshKeys). For more information
-about SSH keys see [managing SSH Keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys). The SSH key will be 
+about SSH keys see [managing SSH Keys](https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys). The SSH key will be
 installed on the Kubernetes control plane and worker nodes and is used to access them from your 'development machine' and for terraform to perform the cluster set up.
-> - `cluster_name` (optional) is a name of a Kubernetes cluster. This name is used for the prefix of the names of 
+> - `cluster_name` (optional) is a name of a Kubernetes cluster. This name is used for the prefix of the names of
 Kubernetes node virtual server instances, the VPC and the subnet. If not set it defaults to `caa-cluster`.
 > - `region_name` (optional) is the IBM Cloud region Terraform will create the demo environment in. If not set it
 defaults to `jp-tok`.
@@ -92,13 +92,13 @@ defaults to `jp-tok-2`.
 targeted region. Terraform will manage this key instead. You cannot register the same SSH public key in the same region
 twice under different SSHs key names. This key needs to be password-less and on the 'developer machine' running the terraform in order to perform the cluster set up.
 > - `node_image` (optional) is a name of IBM Cloud infrastructure image. This name is used to create virtual server
- instances for the Kubernetes control plane and worker. For more information, about VPC custom images, see 
+ instances for the Kubernetes control plane and worker. For more information, about VPC custom images, see
  [IBM Cloud Importing and managing custom images](https://cloud.ibm.com/docs/vpc?topic=vpc-managing-images).
-  If not set it defaults to `ibm-ubuntu-20-04-2-minimal-s390x-1` for **`s390x`** architecture.
+  If not set it defaults to `ibm-ubuntu-22-04-4-minimal-s390x-3` for **`s390x`** architecture.
 > - `node_profile` (optional) is a name of IBM Cloud virtual server instance profile. This name is used to create virtual server instances for the Kubernetes control plane and worker. For more information, about virtual server instance profile, see [instance profiles](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles). If not set it defaults to `bz2-2x8`, which uses the `s390x` architecture, has 2 vCPUs and 8 GB memory.
-> - `nodes` (optional) is the number of VSIs created to be used as Kubernetes nodes. There will be a single control 
+> - `nodes` (optional) is the number of VSIs created to be used as Kubernetes nodes. There will be a single control
 plane node and the rest will be worker nodes. If not set it defaults to `2`.
-> - `containerd_version` (optional) is the version of containerd installed on the Kubernetes nodes. If not set it 
+> - `containerd_version` (optional) is the version of containerd installed on the Kubernetes nodes. If not set it
 defaults to `1.7.0-beta.3`.
 > - `kube_version` (optional) is the version of kubeadmin and cluster. If not set it defaults to `1.28`.
  <!-- TODO #570 once we've fixed pre-install of containerd note that this might be overriden?-->
@@ -108,7 +108,7 @@ and `image_name` parameters. E.g., to create an **x86** architecture based clust
 the `terraform.tfvars` file
 >
 >     node_profile = "bx2-2x8"
->     node_image = "ibm-ubuntu-20-04-3-minimal-amd64-1"
+>     node_image = "ibm-ubuntu-22-04-5-minimal-amd64-1"
 >
 
 After writing you `terraform.tfvars` file you can create your VPC by executing the following commands on your
@@ -134,7 +134,7 @@ The following IBM Cloud resources will be created when running the end-to-end Te
 Once the terraform process has completed, the IBM Cloud VPC resources will have been created and it will have created
 a file `config` which is the
 [kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/)
-for the cluster. 
+for the cluster.
 
 To create a quick nginx pod to test the cluster, you can run the follow steps:
 - From within the `cloud-api-adaptor/ibmcloud/cluster` directory, run `export KUBECONFIG="$(pwd)/config"` to let the
