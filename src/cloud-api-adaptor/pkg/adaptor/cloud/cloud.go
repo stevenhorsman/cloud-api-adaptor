@@ -435,10 +435,6 @@ func (s *cloudService) StopVM(ctx context.Context, req *pb.StopVMRequest) (*pb.S
 		logger.Printf("stopping agent proxy: %v", err)
 	}
 
-	if sandbox.sshClientInst != nil {
-		sandbox.sshClientInst.DisconnectPP(string(sid))
-	}
-
 	if s.serverConfig.DeveloperMode {
 		logger.Printf("Running in developer mode, so leaving instance %s running", sandbox.instanceID)
 	} else {

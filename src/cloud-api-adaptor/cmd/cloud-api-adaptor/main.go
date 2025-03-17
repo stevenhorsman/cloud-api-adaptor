@@ -114,10 +114,10 @@ func (cfg *daemonConfig) Setup() (cmd.Starter, error) {
 		reg.BoolWithEnv(&cfg.serverConfig.EnableScratchSpace, "enable-scratch-space", false, "ENABLE_SCRATCH_SPACE", "Enable encrypted scratch space for pod VMs")
 		reg.BoolWithEnv(&cfg.networkConfig.ExternalNetViaPodVM, "ext-network-via-podvm", false, "EXTERNAL_NETWORK_VIA_PODVM", "[EXPERIMENTAL] Enable external networking via pod VM")
 		reg.CustomTypeWithEnv(&cfg.networkConfig.PodSubnetCIDRs, "pod-subnet-cidrs", "", "POD_SUBNET_CIDRS", "[EXPERIMENTAL] Comma separated CIDRs for local pod subnets")
-		reg.BoolWithEnv(&cfg.serverConfig.DeveloperMode, "developer-mode", false, "PEERPODS_DEVELOPER_MODE", "Enable developer mode for disabling Peer Pod VM auto delete")
 
 		// Flags without environment variable support
 		flags.BoolVar(&disableTLS, "disable-tls", false, "Disable TLS encryption - use it only for testing")
+		flags.BoolVar(&cfg.serverConfig.DeveloperMode, "developer-mode", false, "Enable developer mode for disabling Peer Pod VM auto delete")
 		flags.StringVar(&cfg.networkConfig.HostInterface, "host-interface", "", "Host Interface")
 		flags.IntVar(&cfg.networkConfig.VXLAN.MinID, "vxlan-min-id", vxlan.DefaultVXLANMinID, "Minimum VXLAN ID (VXLAN tunnel mode only")
 
