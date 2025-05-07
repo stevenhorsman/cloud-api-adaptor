@@ -68,8 +68,8 @@ github.com/IBM/ibm-cos-sdk-go v1.9.4 h1:jGIcufCP0ys7QFJKEYSy/0EWn3sl5kOo2LKfa6x4
 github.com/IBM/ibm-cos-sdk-go v1.9.4/go.mod h1:1VnKWJhPE536IvitwDxZFH9ycmj/7VDOiw8Mjljb160=
 github.com/IBM/platform-services-go-sdk v0.36.0 h1:ElwA6czZWfbda6BZPqrqBxin6x0MgLhfLtSYG+t9cSU=
 github.com/IBM/platform-services-go-sdk v0.36.0/go.mod h1:oFW/DQyAXGBcGytB+DtKjE3yNdEGM2bmw5SDOjrRwTw=
-github.com/IBM/vpc-go-sdk v0.66.0 h1:S0HW+f6Qf6OLSGESQ7WRgWLq1bDgvs+vvOJ7AWgUMbw=
-github.com/IBM/vpc-go-sdk v0.66.0/go.mod h1:VL7sy61ybg6tvA60SepoQx7TFe20m7JyNUt+se2tHP4=
+github.com/IBM/vpc-go-sdk v0.68.0 h1:Zs65PWeWBG5IwafAJV0RdPVsi3hCjIkhFZkqr1sLt5g=
+github.com/IBM/vpc-go-sdk v0.68.0/go.mod h1:VL7sy61ybg6tvA60SepoQx7TFe20m7JyNUt+se2tHP4=
 github.com/Microsoft/go-winio v0.6.2 h1:F2VQgta7ecxGYO8k3ZZz3RS8fVIXVxONVUPlNERoyfY=
 github.com/Microsoft/go-winio v0.6.2/go.mod h1:yd8OoFMLzJbo9gZq8j5qaps8bJ9aShtEA8Ipt1oGCvU=
 github.com/Microsoft/hcsshim v0.12.0-rc.1 h1:Hy+xzYujv7urO5wrgcG58SPMOXNLrj4WCJbySs2XX/A=
