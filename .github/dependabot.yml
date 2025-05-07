@@ -22,5 +22,14 @@ updates:
         patterns:
           - k8s.io
           - sig.k8s.io
+      x/crypto:
+        patterns:
+          - golang.org/x/crypto
+      x/net:
+        patterns:
+          - golang.org/x/net
+      x/sys:
+        patterns:
+          - golang.org/x/sys
     schedule:
       interval: "daily"
