@@ -7,7 +7,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.6.0
 	github.com/IBM-Cloud/bluemix-go v0.0.0-20230120122421-afb48116b8f1
 	github.com/IBM-Cloud/power-go-client v1.2.3 // indirect
-	github.com/IBM/go-sdk-core/v5 v5.19.0
+	github.com/IBM/go-sdk-core/v5 v5.19.1
 	github.com/IBM/platform-services-go-sdk v0.36.0 // indirect
 	github.com/IBM/vpc-go-sdk v0.66.0
 	github.com/aws/aws-sdk-go-v2 v1.34.0
@@ -21,7 +21,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/kata-containers/kata-containers/src/runtime v0.0.0-20250320073820-c0632f847fe7
 	github.com/opencontainers/runtime-spec v1.1.1-0.20230922153023-c0e90434df2a
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 	github.com/vishvananda/netlink v1.2.1-beta.2
 	github.com/vishvananda/netns v0.0.4
 	github.com/vmware/govmomi v0.33.1 // indirect
@@ -136,12 +136,12 @@ require (
 	github.com/go-openapi/validate v0.22.1 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
-	github.com/go-playground/validator/v10 v10.24.0 // indirect
+	github.com/go-playground/validator/v10 v10.26.0 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.2 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/gnostic v0.5.7-v3refs // indirect
-	github.com/google/go-cmp v0.6.0 // indirect
+	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/pprof v0.0.0-20230323073829-e72429f035bd // indirect
 	github.com/google/s2a-go v0.1.8 // indirect
