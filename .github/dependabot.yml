@@ -16,6 +16,6 @@ updates:
       - "src/csi-wrapper"
       - "src/peerpod-ctrl"
       - "src/webhook"
-    # open-pull-requests-limit: 3
+    open-pull-requests-limit: 100
     schedule:
       interval: "daily"
