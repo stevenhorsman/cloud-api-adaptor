@@ -10,7 +10,7 @@ require (
 	github.com/IBM/go-sdk-core/v5 v5.19.0
 	github.com/IBM/platform-services-go-sdk v0.36.0 // indirect
 	github.com/IBM/vpc-go-sdk v0.66.0
-	github.com/aws/aws-sdk-go-v2 v1.34.0
+	github.com/aws/aws-sdk-go-v2 v1.36.3
 	github.com/aws/aws-sdk-go-v2/config v1.15.11
 	github.com/aws/aws-sdk-go-v2/credentials v1.12.6 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.202.0
@@ -44,7 +44,7 @@ require (
 	github.com/BurntSushi/toml v1.3.2
 	github.com/IBM/ibm-cos-sdk-go v1.9.4
 	github.com/avast/retry-go/v4 v4.5.1
-	github.com/aws/aws-sdk-go-v2/service/eks v1.29.5
+	github.com/aws/aws-sdk-go-v2/service/eks v1.64.0
 	github.com/aws/aws-sdk-go-v2/service/iam v1.38.8
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.75.0
 	github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers v0.13.0
@@ -90,8 +90,8 @@ require (
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.6.8 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.6 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.29 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.29 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.34 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.34 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.13 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/v4a v1.3.29 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.12.2 // indirect
