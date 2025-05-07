@@ -17,5 +17,10 @@ updates:
       - "src/peerpod-ctrl"
       - "src/webhook"
     open-pull-requests-limit: 100
+    groups:
+      k8s:
+        patterns:
+          - k8s.io
+          - sig.k8s.io
     schedule:
       interval: "daily"
