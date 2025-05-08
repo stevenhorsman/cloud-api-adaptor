@@ -25,7 +25,7 @@ require (
 	github.com/vishvananda/netlink v1.2.1-beta.2
 	github.com/vishvananda/netns v0.0.4
 	github.com/vmware/govmomi v0.33.1 // indirect
-	golang.org/x/sys v0.31.0
+	golang.org/x/sys v0.33.0
 	google.golang.org/grpc v1.67.1
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/cri-api v0.27.1 // indirect
@@ -57,7 +57,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.1.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.7.0
-	golang.org/x/crypto v0.36.0
+	golang.org/x/crypto v0.38.0
 	golang.org/x/exp v0.0.0-20230224173230-c95f2b4c22f2
 	google.golang.org/api v0.203.0
 	google.golang.org/protobuf v1.35.2
@@ -193,11 +193,11 @@ require (
 	go.opentelemetry.io/otel/trace v1.29.0 // indirect
 	go.starlark.net v0.0.0-20200306205701-8dd3e2ee1dd5 // indirect
 	golang.org/x/mod v0.17.0 // indirect
-	golang.org/x/net v0.38.0 // indirect
+	golang.org/x/net v0.40.0 // indirect
 	golang.org/x/oauth2 v0.23.0 // indirect
-	golang.org/x/sync v0.12.0 // indirect
-	golang.org/x/term v0.30.0 // indirect
-	golang.org/x/text v0.23.0 // indirect
+	golang.org/x/sync v0.14.0 // indirect
+	golang.org/x/term v0.32.0 // indirect
+	golang.org/x/text v0.25.0 // indirect
 	golang.org/x/time v0.7.0 // indirect
 	google.golang.org/genproto v0.0.0-20241015192408-796eee8c2d53 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20241007155032-5fefd90f89a9 // indirect
