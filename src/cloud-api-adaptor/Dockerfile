@@ -1,5 +1,5 @@
 ARG BUILD_TYPE=dev
-ARG BUILDER_BASE=quay.io/confidential-containers/golang-fedora:1.23.6-40
+ARG BUILDER_BASE=quay.io/confidential-containers/golang-fedora:1.23.8-40
 ARG BASE=registry.fedoraproject.org/fedora:40
 
 # This dockerfile uses Go cross-compilation to build the binary,
@@ -36,7 +36,7 @@ COPY cloud-api-adaptor/cmd   ./cmd
 COPY cloud-api-adaptor/pkg   ./pkg
 COPY cloud-api-adaptor/proto ./proto
 
-RUN CC=gcc make ARCH=$TARGETARCH COMMIT=$COMMIT VERSION=$VERSION RELEASE_BUILD=$RELEASE_BUILD cloud-api-adaptor
+RUN CC=gcc ARCH=$TARGETARCH make COMMIT=$COMMIT VERSION=$VERSION RELEASE_BUILD=$RELEASE_BUILD cloud-api-adaptor
 
 FROM builder-release AS iptables
 

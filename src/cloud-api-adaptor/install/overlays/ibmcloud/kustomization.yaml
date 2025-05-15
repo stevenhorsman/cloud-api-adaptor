@@ -7,7 +7,7 @@ resources:
 images:
 - name: cloud-api-adaptor
   newName: quay.io/confidential-containers/cloud-api-adaptor # change image if needed
-  newTag: 1265e4914a7b5c19cb48ed6ed9d9e138edde4121
+  newTag: latest
 
 generatorOptions:
   disableNameSuffixHash: true
@@ -31,6 +31,7 @@ configMapGenerator:
   - IBMCLOUD_VPC_ID="" #set
   - CRI_RUNTIME_ENDPOINT="/run/cri-runtime/containerd.sock"
   - DISABLECVM="true" # Set to false to enable confidential VM
+  - INITDATA="" # set default initdata for podvm
   #- PAUSE_IMAGE="" # Uncomment and set if you want to use a specific pause image
   #- TUNNEL_TYPE="" # Uncomment and set if you want to use a specific tunnel type. Defaults to vxlan
   #- VXLAN_PORT="" # Uncomment and set if you want to use a specific vxlan port. Defaults to 4789
