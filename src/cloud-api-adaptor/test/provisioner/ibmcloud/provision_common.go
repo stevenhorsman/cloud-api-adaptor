@@ -28,7 +28,7 @@ import (
 	"github.com/IBM/ibm-cos-sdk-go/aws/credentials/ibmiam"
 	cosession "github.com/IBM/ibm-cos-sdk-go/aws/session"
 	"github.com/IBM/ibm-cos-sdk-go/service/s3/s3manager"
-	vpcv1 "github.com/IBM/vpc-beta-go-sdk/vpcbetav1"
+	"github.com/IBM/vpc-go-sdk/vpcv1"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -977,6 +977,7 @@ func (p *IBMCloudProvisioner) GetProperties(ctx context.Context, cfg *envconf.Co
 		"TUNNEL_TYPE":                          IBMCloudProps.TunnelType,
 		"VXLAN_PORT":                           IBMCloudProps.VxlanPort,
 		"DISABLECVM":                           strconv.FormatBool(IBMCloudProps.DisableCVM),
+		"INITDATA":                             IBMCloudProps.InitData,
 	}
 }
 

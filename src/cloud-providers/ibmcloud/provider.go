@@ -13,7 +13,8 @@ import (
 	"time"
 
 	"github.com/IBM/go-sdk-core/v5/core"
-	vpcv1 "github.com/IBM/vpc-beta-go-sdk/vpcbetav1"
+	"github.com/IBM/vpc-go-sdk/vpcv1"
+
 	provider "github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers"
 	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers/util"
 	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers/util/cloudinit"
@@ -78,7 +79,7 @@ func NewProvider(config *Config) (provider.Provider, error) {
 		config.VpcServiceURL = fmt.Sprintf("https://%s.iaas.cloud.ibm.com/v1", nodeRegion)
 	}
 
-	vpcV1, err := vpcv1.NewVpcbetaV1(&vpcv1.VpcbetaV1Options{
+	vpcV1, err := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 		Authenticator: authenticator,
 		URL:           config.VpcServiceURL,
 	})
@@ -133,7 +134,7 @@ func NewProvider(config *Config) (provider.Provider, error) {
 	return provider, nil
 }
 
-func fetchVPCDetails(vpcV1 *vpcv1.VpcbetaV1, subnetID string) (vpcID string, resourceGroupID string, securityGroupID string, e error) {
+func fetchVPCDetails(vpcV1 *vpcv1.VpcV1, subnetID string) (vpcID string, resourceGroupID string, securityGroupID string, e error) {
 	subnet, response, err := vpcV1.GetSubnet(&vpcv1.GetSubnetOptions{
 		ID: &subnetID,
 	})
@@ -176,7 +177,7 @@ func (p *ibmcloudVPCProvider) getInstancePrototype(instanceName, userData, insta
 			Enabled:  core.BoolPtr(true),
 			Protocol: core.StringPtr(vpcv1.InstanceMetadataServicePatchProtocolHTTPConst),
 		},
-		ConfidentialComputeMode: core.StringPtr("tdx"), // TODO when available: vpcv1.InstanceConfidentialComputeModeTdxConst
+		ConfidentialComputeMode: core.StringPtr(vpcv1.InstanceConfidentialComputeModeTdxConst),
 		EnableSecureBoot:        core.BoolPtr(true),
 	}
 
@@ -262,9 +263,14 @@ func (p *ibmcloudVPCProvider) CreateInstance(ctx context.Context, podName, sandb
 		return nil, err
 	}
 
-	imageID, err := p.selectImage(ctx, spec, instanceProfile)
-	if err != nil {
-		return nil, err
+	imageID := spec.Image
+	if imageID != "" {
+		logger.Printf("Choosing %s from annotation as the IBM Cloud Image for the PodVM image", imageID)
+	} else {
+		imageID, err = p.selectImage(ctx, spec, instanceProfile)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	prototype := p.getInstancePrototype(instanceName, userData, instanceProfile, imageID)
