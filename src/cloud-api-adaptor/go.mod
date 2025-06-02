@@ -26,7 +26,7 @@ require (
 	github.com/vishvananda/netns v0.0.4
 	github.com/vmware/govmomi v0.33.1 // indirect
 	golang.org/x/sys v0.32.0
-	google.golang.org/grpc v1.71.1
+	google.golang.org/grpc v1.72.2
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/cri-api v0.30.0 // indirect
 	libvirt.org/go/libvirt v1.9008.0
