@@ -11,7 +11,7 @@ require (
 	github.com/golang/protobuf v1.5.4
 	github.com/kata-containers/kata-containers/src/runtime v0.0.0-20250521110624-a897bce29f3c
 	golang.org/x/net v0.39.0
-	google.golang.org/grpc v1.72.0
+	google.golang.org/grpc v1.73.0
 	k8s.io/apimachinery v0.30.0
 	k8s.io/client-go v0.29.0
 	k8s.io/code-generator v0.26.3
