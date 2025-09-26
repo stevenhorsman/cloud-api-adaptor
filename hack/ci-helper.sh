@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
 # Copyright (c) 2023 Intel Corporation
+# Copyright (c) 2025 IBM Corporation
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -38,15 +39,37 @@ function rebase_atop_of_the_latest_target_branch() {
 	fi
 }
 
+# Remove unnecessary directories on the github runner to relieve disk space issues
+function clean_up_runner() {
+	sudo rm -rf /usr/local/.ghcup
+	sudo rm -rf /opt/hostedtoolcache/CodeQL
+	sudo rm -rf /usr/local/lib/android
+	sudo rm -rf /usr/share/dotnet
+	sudo rm -rf /opt/ghc
+	sudo rm -rf /usr/local/share/boost
+	sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+	sudo rm -rf /usr/lib/jvm
+	sudo rm -rf /usr/share/swift
+	sudo rm -rf /usr/local/share/powershell
+	sudo rm -rf /usr/local/julia*
+	sudo rm -rf /opt/az
+	sudo rm -rf /usr/local/share/chromium
+	sudo rm -rf /opt/microsoft
+	sudo rm -rf /opt/google
+	sudo rm -rf /usr/lib/firefox
+}
+
+
 function main() {
-    action="${1:-}"
+	action="${1:-}"
 
 	 add_git_config_info
 
-    case "${action}" in
-	rebase-atop-of-the-latest-target-branch) rebase_atop_of_the_latest_target_branch;;
-        *) >&2 echo "Invalid argument"; exit 2 ;;
-    esac
+	case "${action}" in
+		clean-up-runner) clean_up_runner;;
+		rebase-atop-of-the-latest-target-branch) rebase_atop_of_the_latest_target_branch;;
+		*) >&2 echo "Invalid argument"; exit 2 ;;
+	esac
 }
 
 main "$@"
