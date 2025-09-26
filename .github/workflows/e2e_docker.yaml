@@ -63,7 +63,7 @@ jobs:
       - name: Remove unnecessary directories to free up space
         working-directory: ./
         run: |
-          ./hack/ci-helper.sh clean-up-runner
+          sudo ./hack/ci-helper.sh clean-up-runner
 
       - name: Login to quay Container Registry
         if: ${{ startsWith(inputs.podvm_image, 'quay.io') }}

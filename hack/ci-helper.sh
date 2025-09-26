@@ -41,22 +41,22 @@ function rebase_atop_of_the_latest_target_branch() {
 
 # Remove unnecessary directories on the github runner to relieve disk space issues
 function clean_up_runner() {
-	sudo rm -rf /usr/local/.ghcup
-	sudo rm -rf /opt/hostedtoolcache/CodeQL
-	sudo rm -rf /usr/local/lib/android
-	sudo rm -rf /usr/share/dotnet
-	sudo rm -rf /opt/ghc
-	sudo rm -rf /usr/local/share/boost
-	sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-	sudo rm -rf /usr/lib/jvm
-	sudo rm -rf /usr/share/swift
-	sudo rm -rf /usr/local/share/powershell
-	sudo rm -rf /usr/local/julia*
-	sudo rm -rf /opt/az
-	sudo rm -rf /usr/local/share/chromium
-	sudo rm -rf /opt/microsoft
-	sudo rm -rf /opt/google
-	sudo rm -rf /usr/lib/firefox
+	rm -rf /usr/local/.ghcup
+	rm -rf /opt/hostedtoolcache/CodeQL
+	rm -rf /usr/local/lib/android
+	rm -rf /usr/share/dotnet
+	rm -rf /opt/ghc
+	rm -rf /usr/local/share/boost
+	rm -rf "$AGENT_TOOLSDIRECTORY"
+	rm -rf /usr/lib/jvm
+	rm -rf /usr/share/swift
+	rm -rf /usr/local/share/powershell
+	rm -rf /usr/local/julia*
+	rm -rf /opt/az
+	rm -rf /usr/local/share/chromium
+	rm -rf /opt/microsoft
+	rm -rf /opt/google
+	rm -rf /usr/lib/firefox
 }
 
 
