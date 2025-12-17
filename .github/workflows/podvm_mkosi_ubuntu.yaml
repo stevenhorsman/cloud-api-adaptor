@@ -61,6 +61,10 @@ on:
         description: The location of the docker oci container image this workflow pushed
         value: ${{ jobs.build-image.outputs.docker_oci_image }}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 defaults:
   run:
     working-directory: src/cloud-api-adaptor
@@ -72,10 +76,10 @@ jobs:
     name: Build mkosi Ubuntu image for ${{ inputs.arch }}
     runs-on: ${{ inputs.arch == 's390x' && 's390x' || 'ubuntu-24.04' }}
     permissions:
-      contents: read
-      packages: write
-      id-token: write
-      attestations: write
+      contents: read # Required if we want to run on a fork?
+      packages: write # Required to publish the oras package to ghcr
+      id-token: write # Required to publish the attestation provenance to ghcr
+      attestations: write # Required to publish the attestation provenance to ghcr
     outputs:
       qcow2_oras_image: ${{ steps.publish_oras_qcow2.outputs.image }}:${{ steps.publish_oras_qcow2.outputs.tag }}
       docker_oci_image: ${{ steps.build_docker_oci.outputs.image }}
@@ -167,17 +171,17 @@ jobs:
           cd oras
           cp ../build/podvm-*.qcow2 .
           tar cJf podvm.tar.xz podvm-*.qcow2
-          image=${{ inputs.registry }}/podvm-generic-ubuntu
-          if [ "${{inputs.debug}}" = "true" ]; then
+          image=${REGISTRY}/podvm-generic-ubuntu
+          if [ "${DEBUG}" = "true" ]; then
             image=${image}-debug
           fi
-          image=${image}-${{ inputs.arch }}
+          image=${image}-${ARCH}
           tag=$(git rev-parse --short HEAD)
           oras push "${image}:${tag}" podvm.tar.xz
 
           # If the input has a different image-tag then also push it with that tag
-          if [ -n "${{ inputs.image_tag }}" ] && [ "${{ inputs.image_tag }}" != "${tag}" ];then
-            oras push "${image}:${{ inputs.image_tag }}" podvm.tar.xz
+          if [ -n "$IMAGE_TAG}" ] && [ "${IMAGE_TAG}" != "${tag}" ];then
+            oras push "${image}:${IMAGE_TAG}" podvm.tar.xz
           fi
 
           # add image and digest to output for attestation
@@ -185,6 +189,11 @@ jobs:
           digest="$(oras manifest fetch "${image}:${tag}" --descriptor | jq -r .digest)"
           echo "digest=${digest}" >> "$GITHUB_OUTPUT"
           echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+        env:
+          ARCH: ${{ inputs.arch }}
+          DEBUG: ${{ inputs.debug }}
+          IMAGE_TAG: ${{ inputs.image_tag }}
+          REGISTRY: ${{ inputs.registry }}
 
       - uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3.0.0
         with:
@@ -209,7 +218,7 @@ jobs:
           PODVM_TAG=${tag} make push-image-container
           arch=$(uname -m)
           arch=${arch/x86_64/amd64}
-          echo "image=${{ inputs.registry }}/podvm-docker-image-${arch}:${tag}" >> "$GITHUB_OUTPUT"
+          echo "image=${REGISTRY}/podvm-docker-image-${arch}:${tag}" >> "$GITHUB_OUTPUT"
         env:
           REGISTRY: ${{ inputs.registry }}
           PODVM_DISTRO: ubuntu
