@@ -8,7 +8,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN echo "Building iptables-wrapper... " \
     && apt-get update \
-    && apt-get install -y git golang \
+    && apt-get install -y git golang build-essential \
     && git clone https://github.com/kubernetes-sigs/iptables-wrappers.git /iptables \
     && cd /iptables \
     && make BIN_DIR=. build \
