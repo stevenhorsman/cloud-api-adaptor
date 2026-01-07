@@ -12,9 +12,9 @@ permissions: {}
 
 jobs:
   caa:
-    uses: ./.github/workflows/caa_build_and_push_per_arch.yaml
+    uses: ./.github/workflows/caa_build_and_push_multi_arch.yaml
     with:
-      dev_tags: ${{ github.event.release.tag_name }}-dev
+      dev_tags: dev-${{ github.event.release.tag_name }}
       release_tags: ${{ github.event.release.tag_name }}
       git_ref: ${{ github.ref }}
     permissions:

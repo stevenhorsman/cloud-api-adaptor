@@ -39,7 +39,7 @@ env:
   # cloud-api-adaptor: image release tag
   E2E_IMG_RELEASE_TAG: ${{ inputs.caa_image_tag }}
   # cloud-api-adaptor image dev tag
-  E2E_IMG_DEV_TAG: ${{ inputs.caa_image_tag }}-dev
+  E2E_IMG_DEV_TAG: dev-${{ inputs.caa_image_tag }}
 
 defaults:
   run:
@@ -136,7 +136,7 @@ jobs:
     uses: ./.github/workflows/caa_build_and_push.yaml
     with:
       registry: ${{ inputs.registry }}
-      dev_tags: ${{ inputs.caa_image_tag }}-dev
+      dev_tags: dev-${{ inputs.caa_image_tag }}
       release_tags: ${{ inputs.caa_image_tag }}
       git_ref: ${{ inputs.git_ref }}
     permissions:
@@ -257,7 +257,7 @@ jobs:
       matrix: ${{ fromJSON(needs.prep_install.outputs.matrix) }}
     uses: ./.github/workflows/e2e_libvirt.yaml
     with:
-      caa_image: ${{ inputs.registry }}/cloud-api-adaptor:${{ inputs.caa_image_tag }}-dev
+      caa_image: ${{ inputs.registry }}/cloud-api-adaptor:dev-${{ inputs.caa_image_tag }}
       container_runtime: ${{ matrix.container_runtime }}
       podvm_image: ${{ inputs.registry }}/podvm-${{ matrix.provider }}-${{ matrix.os }}-${{ matrix.arch }}:${{ inputs.podvm_image_tag }}
       install_directory_artifact: install_directory
@@ -270,10 +270,9 @@ jobs:
     uses: ./.github/workflows/caa_build_and_push.yaml
     with:
       registry: ${{ inputs.registry }}
-      dev_arches: 'linux/amd64'
-      release_arches: 'linux/amd64'
-      dev_tags: ${{ inputs.caa_image_tag }}-amd64-dev
-      release_tags: ${{ inputs.caa_image_tag }}-amd64
+      arches: 'linux/amd64'
+      dev_tags: dev-${{ inputs.caa_image_tag }}
+      release_tags: ${{ inputs.caa_image_tag }}
       git_ref: ${{ inputs.git_ref }}
     permissions:
       contents: read
@@ -285,12 +284,11 @@ jobs:
     uses: ./.github/workflows/caa_build_and_push.yaml
     with:
       registry: ${{ inputs.registry }}
-      dev_arches: 'linux/s390x'
-      release_arches: 'linux/s390x'
-      dev_tags: ${{ inputs.caa_image_tag }}-s390x-dev
-      release_tags: ${{ inputs.caa_image_tag }}-s390x
+      arches: 'linux/s390x'
+      dev_tags: dev-${{ inputs.caa_image_tag }}
+      release_tags: ${{ inputs.caa_image_tag }}
       git_ref: ${{ inputs.git_ref }}
-      runner: 's390x'
+      runner: 'ubuntu-24.04-s390x'
     permissions:
       contents: read
       packages: write
@@ -335,7 +333,7 @@ jobs:
     uses: ./.github/workflows/e2e_libvirt.yaml
     with:
       runner: ubuntu-24.04
-      caa_image: ${{ inputs.registry }}/cloud-api-adaptor:${{ inputs.caa_image_tag }}-amd64-dev
+      caa_image: ${{ inputs.registry }}/cloud-api-adaptor:dev-${{ inputs.caa_image_tag }}-amd64 # Format matching build.sh logic
       podvm_image: ${{ needs.podvm_mkosi_amd64.outputs.qcow2_oras_image }}
       install_directory_artifact: install_directory
       git_ref: ${{ inputs.git_ref }}
@@ -358,7 +356,7 @@ jobs:
     uses: ./.github/workflows/e2e_libvirt.yaml
     with:
       runner: s390x-large
-      caa_image: ${{ inputs.registry }}/cloud-api-adaptor:${{ inputs.caa_image_tag }}-s390x-dev
+      caa_image: ${{ inputs.registry }}/cloud-api-adaptor:dev-${{ inputs.caa_image_tag }}-s390x  # Format matching build.sh logic
       podvm_image: ${{ needs.podvm_mkosi_s390x.outputs.qcow2_oras_image }}
       install_directory_artifact: install_directory
       git_ref: ${{ inputs.git_ref }}
@@ -387,7 +385,7 @@ jobs:
           - amd64
     uses: ./.github/workflows/e2e_docker.yaml
     with:
-      caa_image: ${{ inputs.registry }}/cloud-api-adaptor:${{ inputs.caa_image_tag }}-amd64-dev
+      caa_image: ${{ inputs.registry }}/cloud-api-adaptor:dev-${{ inputs.caa_image_tag }}-amd64
       container_runtime: ${{ matrix.container_runtime }}
       podvm_image: ${{ needs.podvm_mkosi_amd64.outputs.docker_oci_image }}
       install_directory_artifact: install_directory
