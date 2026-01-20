@@ -1,6 +1,6 @@
 name: Automatically run go mod tidy on dependabot PRs
 on:
-  pull_request:
+  pull_request_target:
     branches: [ main ]
 
 concurrency:
