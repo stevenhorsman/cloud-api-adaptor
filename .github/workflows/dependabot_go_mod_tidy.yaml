@@ -27,6 +27,7 @@ jobs:
       - name: Run go mod tidy
         run: |
           ./hack/go-tidy.sh
+          echo "Go mod tidy made: $(git diff)"
 
       - name: Commit and push changes
         uses: devops-infra/action-commit-push@8a2d9d73c3f506468129be2e4409e60dbed70357 # v1.0.3
