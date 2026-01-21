@@ -1,6 +1,6 @@
 name: Automatically run go mod tidy on dependabot PRs
 on:
-  pull_request_target:
+  pull_request:
     branches: [ main ]
 
 concurrency:
@@ -22,7 +22,7 @@ jobs:
       - name: Checkout the pull request code
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
-          persist-credentials: false
+          persist-credentials: true # Needed to commit changes
 
       - name: Run go mod tidy
         run: |
