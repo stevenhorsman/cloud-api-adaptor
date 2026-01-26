@@ -95,6 +95,7 @@ jobs:
           delete-branch: true
           title: ${{ github.event.commits[0].message }}
           draft: false
+          base: ${{ github.head_ref }}
 
       - name: Close original Pull Request
         if: steps.go-mod-tidy-changed.outputs.changed == 'true'
