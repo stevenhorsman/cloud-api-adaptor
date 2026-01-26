@@ -67,9 +67,10 @@ jobs:
         #   github_token: ${{ secrets.GITHUB_TOKEN }}
         #   commit_message: "chore: Auto-run go mod tidy after Dependabot update"
         run: |
+          git branch ${{ github.head_ref }}-fix
           git add .
           git commit -m 'chore: Auto-run go mod tidy after Dependabot update'
-          git push --force
+          git push origin ${{ github.head_ref }}-fix --force
 
       - name: Create new pull request
         if: steps.go-mod-tidy-changed.outputs.changed == 'true'
