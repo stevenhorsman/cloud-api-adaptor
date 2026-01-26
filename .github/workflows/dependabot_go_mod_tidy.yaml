@@ -60,26 +60,41 @@ jobs:
             echo "changed=false" >> "${GITHUB_OUTPUT}"
           fi
 
-      - name: Commit and push changes
-        if: steps.go-mod-tidy-changed.outputs.changed == 'true'
+      # - name: Commit and push changes
+      #   if: steps.go-mod-tidy-changed.outputs.changed == 'true'
         # uses: devops-infra/action-commit-push@8a2d9d73c3f506468129be2e4409e60dbed70357 # v1.0.3
         # with:
         #   github_token: ${{ secrets.GITHUB_TOKEN }}
         #   commit_message: "chore: Auto-run go mod tidy after Dependabot update"
-        run: |
-          git branch ${{ github.head_ref }}-fix
-          git add .
-          git commit -m 'chore: Auto-run go mod tidy after Dependabot update'
-          git push origin ${{ github.head_ref }}-fix --force
+        # run: |
+        #   git branch ${{ github.head_ref }}-fix
+        #   git add .
+        #   git commit -m 'chore: Auto-run go mod tidy after Dependabot update'
+        #   git push origin ${{ github.head_ref }}-fix --force
 
-      - name: Create new pull request
+      # - name: Create new pull request
+      #   if: steps.go-mod-tidy-changed.outputs.changed == 'true'
+      #   id: create_pr
+      #   uses: devops-infra/action-pull-request@b2895bff2ff66579f6704d717a1ea75fad919e84 # v1.0.2
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     body: "**Automated pull request**<br><br>Updating dependabot PR with go mod tidy"
+      #     title: ${{ github.event.commits[0].message }}
+
+      - name: Create Pull Request
         if: steps.go-mod-tidy-changed.outputs.changed == 'true'
         id: create_pr
-        uses: devops-infra/action-pull-request@b2895bff2ff66579f6704d717a1ea75fad919e84 # v1.0.2
+        uses: peter-evans/create-pull-request@v8
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          body: "**Automated pull request**<br><br>Updating dependabot PR with go mod tidy"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Automated pull request**<br><br>Updating dependabot PR with go mod tidy
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
+          signoff: false
+          branch: ${{ github.head_ref }}-fix
+          delete-branch: true
           title: ${{ github.event.commits[0].message }}
+          draft: false
 
       - name: Close original Pull Request
         if: steps.go-mod-tidy-changed.outputs.changed == 'true'
