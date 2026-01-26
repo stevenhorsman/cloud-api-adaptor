@@ -62,10 +62,14 @@ jobs:
 
       - name: Commit and push changes
         if: steps.go-mod-tidy-changed.outputs.changed == 'true'
-        uses: devops-infra/action-commit-push@8a2d9d73c3f506468129be2e4409e60dbed70357 # v1.0.3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          commit_message: "chore: Auto-run go mod tidy after Dependabot update"
+        # uses: devops-infra/action-commit-push@8a2d9d73c3f506468129be2e4409e60dbed70357 # v1.0.3
+        # with:
+        #   github_token: ${{ secrets.GITHUB_TOKEN }}
+        #   commit_message: "chore: Auto-run go mod tidy after Dependabot update"
+        run: |
+          git add .
+          git commit -m 'chore: Auto-run go mod tidy after Dependabot update'
+          git push --force
 
       - name: Create new pull request
         if: steps.go-mod-tidy-changed.outputs.changed == 'true'
