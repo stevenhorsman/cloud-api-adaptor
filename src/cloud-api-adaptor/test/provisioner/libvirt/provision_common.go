@@ -436,5 +436,10 @@ func (l *LibvirtInstallChart) Configure(ctx context.Context, cfg *envconf.Config
 		}
 	}
 
+	if properties["ssh_key_file"] != "" {
+		l.Helm.OverrideValues["secrets.mode"] = "reference"
+		l.Helm.OverrideValues["secrets.existingSshKeySecretName"] = properties["ssh_key_file"]
+	}
+
 	return nil
 }
