@@ -15,7 +15,7 @@ function _publish_multiarch_manifest()
 {
 	IFS=',' read -ra TAGS <<< "${IMAGE_TAGS:?"Image tags must be provided"}"
 
-	ARCHES=${ARCHES:-"amd64,arm64,ppc64le,s390x"}
+	ARCHES=${ARCHES:-"amd64,arm64"}
 	IFS=',' read -ra MULTI_ARCHES <<< "${ARCHES}"
 
 	for tag in "${TAGS[@]}"; do
