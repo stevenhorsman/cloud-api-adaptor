@@ -46,11 +46,19 @@ PKG_INSTALL := dnf install -y
 endif
 
 define run_mkosi_in_container
+ifeq ($(PODVM_DISTRO),ubuntu)
+	docker run --rm --privileged \
+		-v "$(shell pwd)":/workspace \
+		-w /workspace \
+		$(DISTRO_IMAGE) \
+		bash -c "$(PKG_INSTALL) bubblewrap pipx debootstrap systemd-container; pipx ensurepath; mkdir -p /build; git clone -b $(MKOSI_VERSION) https://github.com/systemd/mkosi /build/mkosi; export PATH="/build/mkosi/bin:$$PATH"; mkosi --tools-tree=default --tools-tree-release=$(DISTRO_RELEASE) $(1)"
+else
 	docker run --rm --privileged \
 		-v "$(shell pwd)":/workspace \
 		-w /workspace \
 		$(DISTRO_IMAGE) \
 		bash -c "$(PKG_INSTALL) bubblewrap coreutils git python3; mkdir -p /build; git clone -b $(MKOSI_VERSION) https://github.com/systemd/mkosi /build/mkosi; export PATH="/build/mkosi/bin:$$PATH"; mkosi --tools-tree=default --tools-tree-release=$(DISTRO_RELEASE) $(1)"
+endif
 endef
 
 binaries:
