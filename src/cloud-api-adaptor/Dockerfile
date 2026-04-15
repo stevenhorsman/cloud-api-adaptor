@@ -1,6 +1,6 @@
 ARG BUILD_TYPE=dev
-# quay.io/confidential-containers/golang-fedora:1.25.9-41
-ARG BUILDER_BASE=quay.io/confidential-containers/golang-fedora@sha256:ee140c59abb205d6385ef89fb0dfc5352f480435b1b58a7fa9941492904dcc07
+# golang:1.25.9
+ARG BUILDER_BASE=golang@sha256:a95d3d115ec2643a014c9539962dcecba297fb4ed5e5cbfab84cf726327e8b8c
 # registry.fedoraproject.org/fedora:41
 ARG BASE=registry.fedoraproject.org/fedora@sha256:893f7eeffce8e3e2bb2bc62786ba5603fb1e0bd6ba07091acb892266b95bafdf
 
@@ -17,8 +17,10 @@ RUN go install github.com/mikefarah/yq/v4@$YQ_VERSION
 # instead of using Go's cross-compilation
 FROM --platform=$TARGETPLATFORM $BUILDER_BASE AS builder-dev
 ARG YQ_VERSION
+RUN apt-get update && \
+    apt-get install -y libvirt-dev pkg-config && \
+    rm -rf /var/lib/apt/lists/*
 RUN go install github.com/mikefarah/yq/v4@$YQ_VERSION
-RUN dnf install -y libvirt-devel binutils-gold && dnf clean all
 
 FROM builder-${BUILD_TYPE} AS builder
 ARG RELEASE_BUILD
@@ -47,8 +49,7 @@ WORKDIR /iptables
 RUN --mount=type=bind,target=/versions.yaml,source=cloud-api-adaptor/versions.yaml,readonly \
     version=$(yq -r .tools.iptables-wrapper /versions.yaml) && \
     GOARCH=$TARGETARCH go install "github.com/kubernetes-sigs/iptables-wrappers@$version" && \
-    shopt -s globstar && \
-    cp /go/bin/**/iptables-wrappers ./iptables-wrapper && \
+    cp /go/bin/iptables-wrappers ./iptables-wrapper && \
     curl -L -o iptables-wrapper-installer.sh "https://raw.githubusercontent.com/kubernetes-sigs/iptables-wrappers/${version#v*-*-}/iptables-wrapper-installer.sh" && \
     chmod 755 iptables-wrapper-installer.sh
 
